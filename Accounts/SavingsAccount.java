@@ -1,5 +1,4 @@
 package Accounts;
-
 import Banks.Bank;
 
 public class SavingsAccount extends Account implements Withdrawal, Deposit, FundTransfer {
