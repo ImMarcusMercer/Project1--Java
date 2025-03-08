@@ -2,7 +2,6 @@ package Launchers;
 
 import Accounts.*;
 import Bank.*;
-
 import java.util.*;
 
 public class BankLauncher {
@@ -51,20 +50,29 @@ public class BankLauncher {
             System.out.println("Unknown account type: " + accountType);
         }
     }
-    public void bankLogin(String bankName) {
-        Bank found = null;
-        for (Bank b : BANKS) {
-            if (b.getName().equalsIgnoreCase(bankName)) {
-                found = b;
-                break;
-            }
-        }
+    public void bankLogin(String bankIdOrName) {
+        // Search for bank by ID (converted to String) or by Name
+        Bank found = BANKS.stream()
+            .filter(b -> String.valueOf(b.getBankID()).equalsIgnoreCase(bankIdOrName)  // Convert int to String if needed
+                      || b.getBankName().equalsIgnoreCase(bankIdOrName)) // Compare name
+            .findFirst()
+            .orElse(null);
+    
         if (found != null) {
             loggedBank = found;
-            System.out.println("Logged in to bank: " + found.getName());
+            System.out.println("Logged in to bank: " + found.getBankName());
+            showBankAccounts(found); // Call method to show account options
         } else {
-            System.out.println("Bank not found with ID or name: " + bankName);
+            System.out.println("Bank not found with ID or name: " + bankIdOrName);
         }
+    }
+    
+    // Method to show account options after login
+    private void showBankAccounts(Bank bank) {
+        System.out.println("<---- Accounts ----->");
+        System.out.println("[1] Savings");
+        System.out.println("[2] Credit");
+        // You can add logic to proceed with account selection
     }
 
     public void setLogSession(Bank b) {
@@ -126,5 +134,10 @@ public class BankLauncher {
 
     public int bankSize() {
         return BANKS.size();
+    }
+    
+    //Getter to retrieve list of banks
+    public static List<Bank> getBanks() {
+        return BANKS;
     }
 }

@@ -91,15 +91,30 @@ public class Main
 
             }
             // Bank Option
-            else if (getOption() == 2)
-            {
-                // TODO: Complete Bank option
+            else if (getOption() == 2) {
+                // System.out.println("<---- Banks ----->");
                 showMenuHeader("Banks");
+                if (BankLauncher.getBanks().isEmpty()) {  
+                    System.out.println("No Banks Available");
+                } else {
+
+                    for (int i = 0; i < BankLauncher.getBanks().size(); i++) {  
+                        System.out.println("[" + (i + 1) + "] " + BankLauncher.getBanks().get(i).getBankName());  
+                    }
+                }
+                
+
+                // TODO: Complete Bank option
                 showMenuHeader("Bank Login");
                 showMenu(3);
                 setOption();
-                //Assuming successful login
-                //if(isLogged == true){}
+
+                if (getOption() == 1) {
+                    String bankIdOrName = prompt("Enter Bank Name or ID: ", true); // Use prompt() for input
+                    BLauncher.bankLogin(bankIdOrName); // Pass input to bankLogin()
+                }
+                // Assuming successful login
+                // if (isLogged == true) {}
                 showMenuHeader("My Accounts");
                 showMenu(31);
                 setOption();
