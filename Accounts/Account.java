@@ -3,15 +3,10 @@ package Accounts;
 import java.util.ArrayList;
 import Bank.*;
 
-public abstract class Account {
+public class Account {
     protected Bank bank;
     protected String accountNumber;
     protected String ownerFName,ownerLName,ownerEmail;
-
-    public String getPin() {
-        return pin;
-    }
-
     protected String pin;
     protected ArrayList<Transaction> transactions;
     public Account(Bank bank, String accountNumber, String ownerFName, String ownerLName, String ownerEmail, String pin) {
@@ -22,6 +17,13 @@ public abstract class Account {
         this.ownerEmail = ownerEmail;
         this.pin = pin;
         this.transactions = new ArrayList<>();
+    }
+    public Bank getBank()
+    {
+        return this.bank;
+    }
+    public String getPin() {
+        return pin;
     }
     public String getAccountNumber() {
         return accountNumber;

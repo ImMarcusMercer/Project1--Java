@@ -3,7 +3,7 @@ package Launchers;
 import Accounts.*;
 import Bank.*;
 
-public class AccountLauncher {
+public abstract class AccountLauncher {
     protected Account loggedAccount; // Holds the currently logged-in account
     protected Bank assocBank;        // Associated bank
 
@@ -12,27 +12,33 @@ public class AccountLauncher {
         return loggedAccount != null;
     }
 
-    // Method to set a user login session
-    public void login(Account account) {
-        this.loggedAccount = account;
-        System.out.println("Login successful for account: " + account.getAccountNumber());
+    public void login(String accountNum, String pin)
+    {
+        this.loggedAccount= assocBank.getBankAccount(accountNum);
     }
 
-    // Method to set the bank associated with this launcher
     public void selectBank(Bank bank) {
         this.assocBank = bank;
     }
-
-    // Method to destroy the current user session
+    public void setLogSession(Bank bank) {
+        assocBank = bank;
+        if (bank != null)
+        {
+            System.out.println("New Session for: " + bank.getName());
+        }
+        else
+        {
+            System.out.println("No bank selected.");
+        }
+    }
     public void logout() {
         this.loggedAccount = null;
         System.out.println("Logged out successfully.");
     }
 
-    // Method to check credentials (dummy implementation)
     public Account checkCredentials(Bank bank, String accountNumber, String pin) {
         if (assocBank != null) {
-            Account account = Bank.getBankAccount(bank, accountNumber);
+            Account account = bank.getBankAccount( accountNumber);
             if (account != null && account.getPin().equals(pin)) {
                 return account;
             }
@@ -40,7 +46,6 @@ public class AccountLauncher {
         return null;
     }
 
-    // Method to return the logged-in account
     public Account getLoggedAccount() {
         return loggedAccount;
     }

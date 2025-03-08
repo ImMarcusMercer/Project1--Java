@@ -7,13 +7,16 @@ import java.util.*;
 
 public class Bank {
 
+
     protected int ID;
     protected String name, password;
     protected double DEPOSITLIMIT, WITHDRAWLIMIT,CREDITLIMIT;
     protected double processingFee;
     protected ArrayList <Account> BANKACCOUNTS;
 
-    //Constructors
+
+
+
     public Bank(int ID, String name, String password) {
         this.ID = ID;
         this.name = name;
@@ -30,7 +33,16 @@ public class Bank {
         this.processingFee=processingFee;
     }
 
-    //Methods
+    public String getName() {
+        return name;
+    }
+    public int getID() {
+        return ID;
+    }
+    public ArrayList<Account> getBANKACCOUNTS() {
+        return BANKACCOUNTS;
+    }
+
     public <T> void showAccounts(Class<T> accountType) {
         for (Account account : BANKACCOUNTS) {
             if (accountType.isInstance(account)) {
@@ -38,8 +50,8 @@ public class Bank {
             }
         }
     }
-    public static Account getBankAccount(Bank bank, String accountNum) {
-        for (Account account : bank.BANKACCOUNTS) {
+    public Account getBankAccount(String accountNum) {
+        for (Account account : BANKACCOUNTS) {
             if (account.getAccountNumber().equals(accountNum)) {
                 return account;
             }
@@ -62,7 +74,14 @@ public class Bank {
     }
 
     public static boolean accountExists(Bank bank, String accountNum) {
-        return getBankAccount(bank, accountNum) != null;
+        for(Account accs: bank.BANKACCOUNTS)
+        {
+            if(accs.getAccountNumber().equals(accountNum))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override

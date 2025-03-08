@@ -19,6 +19,6 @@ public class CreditAccountLauncher extends AccountLauncher {
 
     // Method to get the logged-in Credit Account
     public CreditAccount getLoggedAccount() {
-        return (CreditAccount);
+        return null;
     }
 }

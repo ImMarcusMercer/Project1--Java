@@ -34,7 +34,7 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
 
     // @Override
     public void adjustAccountBalance(double amount) {
-        this.balance = amount;
+        this.balance += amount;
     }
 
     // @Override
@@ -44,16 +44,21 @@ public class SavingsAccount extends Account implements Withdrawal, Deposit, Fund
 
     @Override
     public boolean transfer(Bank bank, Account account, double amount) throws IllegalAccountType {
-        if(Bank.accountExists(bank, account.accountNumber))
-        {
-            Account account1 = Bank.getBankAccount(bank,account.accountNumber);
-            //Compolete
-        }
+        return transfer(account, amount);
     }
 
     @Override
     public boolean transfer(Account account, double amount) throws IllegalAccountType {
-        throw new UnsupportedOperationException("Unimplemented method 'transfer'");
+
+        if (amount > this.balance) {
+            System.out.println("Insufficient Funds!");
+            return false;
+        }
+        balance -= amount;
+        addNewTransaction(accountNumber, Transaction.Transactions.FundTransfer,
+                String.format("Transferred %.2f to %s", amount, account.getAccountNumber()));
+        ((SavingsAccount) account).cashDeposit(amount);
+        return true;
     }
 
     @Override
