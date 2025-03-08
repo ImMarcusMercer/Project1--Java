@@ -2,7 +2,6 @@ package Bank;
 
 import Accounts.*;
 import Main.Field;
-
 import java.util.*;
 
 public class Bank {
@@ -41,6 +40,16 @@ public class Bank {
     }
     public ArrayList<Account> getBANKACCOUNTS() {
         return BANKACCOUNTS;
+    }
+
+     //Getters for Bank Name
+     public String getBankName() {
+        return this.name;
+    }
+
+    //Getters for Bank ID
+    public int getBankID() {
+        return this.ID;
     }
 
     public <T> void showAccounts(Class<T> accountType) {
