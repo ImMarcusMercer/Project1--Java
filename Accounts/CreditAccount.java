@@ -1,44 +1,37 @@
 package Accounts;
 
-import Banks.Bank;
+import java.util.*;
+import Bank.*;
+public class CreditAccount extends Account{
+    protected double Loan;
 
-public class CreditAccount extends Account implements Payment, Recompense {
-    private double loan;
+    public CreditAccount(Bank bank, String accountNumber, String ownerFName, String ownerLName, String ownerEmail, String pin)
+    {
+        super( bank,  accountNumber,  ownerFName,  ownerLName,  ownerEmail,  pin);
+        this.bank = bank;
+        this.accountNumber = accountNumber;
+        this.ownerFName = ownerFName;
+        this.ownerLName = ownerLName;
+        this.ownerEmail = ownerEmail;
+        this.pin = pin;
+        this.transactions = new ArrayList<>();
+    }
+    public String getLoanStatement()
+    {
+        return "";
+    }
+    protected boolean canCredit(double amountAdjustment)
+    {
+        //TO-DO: Complete this method
+        return false;
+    }
+    protected void adjustLoanAmount(double amountAdjustment)
+    {
 
-    public CreditAccount(Bank bank, String accNum, String ownerName, String ownerEmail, String pin, double loan) {
-        super();
-        this.loan = loan;
+    }
+    public String toString()
+    {
+        return "";
     }
 
-    public double getLoan() {
-        return loan;
-    }
-
-    public void setLoan(double loan) {
-        this.loan = loan;
-    }
-
-    public String getLoanStatement() {
-        return "Loan Balance: " + loan;
-    }
-
-    // @Override
-    public boolean canCredit(double amount) {
-        return this.loan >= amount;
-    }
-
-    // @Override
-    public void adjustLoanAmount(double amount) {
-        this.loan += amount;
-    }
-
-    @Override
-    public boolean recompense(double amount) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public boolean pay(Account account, double amount) throws IllegalAccountType {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }

@@ -1,6 +1,8 @@
 package Main;
 
 import java.util.Scanner;
+import Bank.*;
+import Launchers.*;
 
 public class Main
 {
@@ -16,6 +18,7 @@ public class Main
      */
     public static Field<Integer, Integer> option = new Field<Integer, Integer>("Option",
             Integer.class, -1, new Field.IntegerFieldValidator());
+
 
     public static void main(String[] args)
     {
@@ -33,20 +36,47 @@ public class Main
                 showMenuHeader("Account Login Menu");
                 showMenu(2, 1);
                 setOption();
-                showMenu(getOption(), 1);
+//                showMenu(getOption(), 1);
                 // TODO: Complete this portion
+                if(getOption()==1)
+                {
+                    showMenu(33);
+                    setOption();
+                    showMenu(getOption());
+                    if(getOption()==1)
+                    {
 
-                
+                    }
+                    else if(getOption()==2)
+                    {
+
+                    }
+                }
+                else if(getOption()==0)
+                {
+                    break;
+                }
+
+
             }
             // Bank Option
             else if (getOption() == 2)
             {
                 // TODO: Complete Bank option
+                showMenuHeader("Bank Login");
+                showMenu(3);
+                setOption();
+                //Assuming successful login
+                //if(isLogged == true){}
+                showMenuHeader("My Accounts");
+                showMenu(31);
+                setOption();
             }
             // Create New Bank
             else if (getOption() == 3)
             {
                 // TODO: Complete this portion...
+                showMenuHeader("Creating New Bank");
             }
             else if (getOption() == 4)
             {

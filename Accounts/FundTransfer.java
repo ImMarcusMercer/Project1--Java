@@ -1,7 +1,6 @@
 package Accounts;
-// package Bank;
 
-import Banks.Bank;
+import Bank.Bank;
 
 public interface FundTransfer{
     /**
