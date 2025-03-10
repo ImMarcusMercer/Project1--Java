@@ -126,6 +126,7 @@ public class Main
                             }
                             //Create New Account
                             case 2 -> {
+                                //TODO: Complete this option (Aljen)
                             }
                             //Logout
                             case 3 -> {
