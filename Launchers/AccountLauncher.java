@@ -3,42 +3,92 @@ package Launchers;
 import Accounts.*;
 import Bank.*;
 
-public abstract class AccountLauncher {
-    protected Account loggedAccount; // Holds the currently logged-in account
-    protected Bank assocBank;        // Associated bank
+import java.util.Scanner;
 
-    // Method to check if a user is logged in
-    public boolean isLoggedIn() {
+public class AccountLauncher {
+
+
+    private static Account loggedAccount;
+    private static  Bank assocBank;
+    private static final Scanner input = new Scanner(System.in);
+
+    private static void print(String Value)
+    {
+        System.out.print(Value);
+    }
+    public static Bank getAssocBank() {
+        return assocBank;
+    }
+
+    public static boolean isLoggedIn() {
         return loggedAccount != null;
     }
 
-    public void login(String accountNum, String pin)
+    public static void login()
     {
-        this.loggedAccount= assocBank.getBankAccount(accountNum);
+        if(assocBank == null)
+        {
+            print("Error: No Bank Available\n");
+            return;
+        }
+        //Login
+        int tries = 0;
+        login:
+        while(true)
+        {
+
+            print("Enter Account Number:");
+            String accNum = input.nextLine();
+            Account check = BankLauncher.findAccount(accNum);
+            if(check != null)
+            {
+                print("Enter account Pin: ");
+                String pin = input.nextLine();
+                if(check.getPin().equals(pin))
+                {
+                    Account Acc = checkCredentials(accNum,pin);
+                    if(Acc != null)
+                    {
+                        loggedAccount=Acc;
+                        setLogSession(Acc);
+                        print("Login successful!\n");
+                        break login;
+                    }
+                }
+                else {print("Incorrect Pin\nLogin unsuccessful, try again!\n");return;}
+            }
+            if(tries==2){print("Too many unsuccessful attempts!\n");break login;}
+            else
+            {
+                print("Account not Found!\n");
+                tries++;
+            }
+        }
+
     }
 
-    public void selectBank(Bank bank) {
-        this.assocBank = bank;
-    }
-    public void setLogSession(Bank bank) {
+    public static void selectBank(Bank bank) {
         assocBank = bank;
-        if (bank != null)
+    }
+    public static void setLogSession(Account acc) {
+        loggedAccount = acc;
+        if (loggedAccount != null)
         {
-            System.out.println("New Session for: " + bank.getName());
+            System.out.println("New Session for: " + acc.getAccountNumber());
         }
         else
         {
             System.out.println("No bank selected.");
         }
     }
-    public void logout() {
-        this.loggedAccount = null;
+    public static void logout() {
+        loggedAccount = null;
         System.out.println("Logged out successfully.");
     }
 
-    public Account checkCredentials(Bank bank, String accountNumber, String pin) {
+    public static Account checkCredentials( String accountNumber, String pin) {
         if (assocBank != null) {
-            Account account = bank.getBankAccount( accountNumber);
+            Account account = assocBank.getBankAccount( accountNumber);
             if (account != null && account.getPin().equals(pin)) {
                 return account;
             }
@@ -46,7 +96,7 @@ public abstract class AccountLauncher {
         return null;
     }
 
-    public Account getLoggedAccount() {
+    public static Account getLoggedAccount() {
         return loggedAccount;
     }
 }

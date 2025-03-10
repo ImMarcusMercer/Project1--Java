@@ -2,6 +2,7 @@ package Bank;
 
 import Accounts.*;
 import Main.Field;
+
 import java.util.*;
 
 public class Bank {
@@ -36,24 +37,14 @@ public class Bank {
         return name;
     }
     public int getID() {
-        return ID;
+        return this.ID;
     }
     public ArrayList<Account> getBANKACCOUNTS() {
         return BANKACCOUNTS;
     }
 
-     //Getters for Bank Name
-     public String getBankName() {
-        return this.name;
-    }
-
-    //Getters for Bank ID
-    public int getBankID() {
-        return this.ID;
-    }
-
     public <T> void showAccounts(Class<T> accountType) {
-        for (Account account : BANKACCOUNTS) {
+        for (Account account : this.BANKACCOUNTS) {
             if (accountType.isInstance(account)) {
                 System.out.println(account);
             }
@@ -100,24 +91,7 @@ public class Bank {
 
 
 }
-//Classes
-class BankComparator implements Comparator<Bank> {
-    @Override
-    public int compare(Bank b1, Bank b2) {
-        return b1.name.compareTo(b2.name);
-    }
-}
 
-class BankIdComparator implements Comparator<Bank> {
-    @Override
-    public int compare(Bank b1, Bank b2) {
-        return Integer.compare(b1.ID, b2.ID);
-    }
-}
 
-class BankCredentialsComparator implements Comparator<Bank> {
-    @Override
-    public int compare(Bank b1, Bank b2) {
-        return b1.password.compareTo(b2.password);
-    }
-}
+
+

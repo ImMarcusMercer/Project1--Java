@@ -1,9 +1,9 @@
 package Accounts;
 
-import Bank.*;
 import java.util.*;
+import Bank.*;
 public class CreditAccount extends Account{
-    protected double Loan;
+    protected static double Loan;
 
     public CreditAccount(Bank bank, String accountNumber, String ownerFName, String ownerLName, String ownerEmail, String pin)
     {
@@ -18,21 +18,23 @@ public class CreditAccount extends Account{
     }
     public String getLoanStatement()
     {
-        return "";
+        return "Outstanding Balance: "+Loan;
     }
-    protected boolean canCredit(double amountAdjustment)
+    public static boolean canCredit(double amountAdjustment)
     {
-        //TO-DO: Complete this method
-        return false;
+        return amountAdjustment<Loan;
     }
-    protected void adjustLoanAmount(double amountAdjustment)
+    public void adjustLoanAmount(double amountAdjustment)
     {
-
+        if (canCredit(amountAdjustment)) {
+            Loan -= amountAdjustment;
+            System.out.println("Loan payment successful. Remaining loan: " + getLoanStatement());
+        }
     }
-    @Override
     public String toString()
     {
-        return "";
+        return "Account Details:\nNumber: "+this.accountNumber+"Name: "+
+                this.ownerLName+", "+this.ownerFName+getLoanStatement();
     }
 
 }
