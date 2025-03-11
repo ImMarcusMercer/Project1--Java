@@ -1,5 +1,6 @@
 package Main;
 
+import java.util.List;
 import java.util.Scanner;
 
 import Accounts.*;
@@ -121,9 +122,34 @@ public class Main
                         //Bank show accounts Menu
                         switch (getOption()) {
                             //Show Accounts
-                            case 1 -> {
-                                // TODO : Complete this option (Gryzza)
+                            case 1 -> { 
+                                Bank loggedBank = BankLauncher.getLoggedBank();
+                                if (loggedBank != null) {
+                                    showMenuHeader("Accounts in " + loggedBank.getName());
+                            
+                                    List<Account> accounts = loggedBank.getBANKACCOUNTS();
+                            
+                                    if (accounts == null || accounts.isEmpty()) {
+                                        System.out.println(" No accounts found in " + loggedBank.getName());
+                                    } else {
+                                        System.out.println(" List of Accounts:");
+                                        for (Account account : accounts) {
+                                            System.out.println(" Account Number: " + account.getAccountNumber());
+                                            System.out.println("   Name: " + account.getOwnerFullName()); 
+                                            if (account instanceof SavingsAccount sa) {
+                                                System.out.println("   Balance: $" + sa.getBalance());
+                                            } else if (account instanceof CreditAccount ca) {
+                                                System.out.println("   Credit Limit: $" + ca.getLoanStatement());
+                                            }
+                                            System.out.println("----------------------------------");
+                                        }
+                                    }
+                                } else {
+                                    System.out.println(" No Bank is currently logged in.");
+                                }
                             }
+                            
+                     
                             //Create New Account
                             case 2 -> {
                                 //TODO: Complete this option (Aljen)
