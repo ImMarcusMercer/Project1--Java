@@ -1,54 +1,57 @@
 package Accounts;
 
-import java.util.ArrayList;
+import java.util.*;
 import Bank.*;
+import Main.*;
 
-public class Account {
-    protected Bank bank;
-    protected String accountNumber;
-    protected String ownerFName,ownerLName,ownerEmail;
-    protected String pin;
-    protected ArrayList<Transaction> transactions;
-    public Account(Bank bank, String accountNumber, String ownerFName, String ownerLName, String ownerEmail, String pin) {
-        this.bank = bank;
-        this.accountNumber = accountNumber;
-        this.ownerFName = ownerFName;
-        this.ownerLName = ownerLName;
-        this.ownerEmail = ownerEmail;
-        this.pin = pin;
-        this.transactions = new ArrayList<>();
-    }
-    public Bank getBank()
+public abstract class Account {
+    private Bank BANK;
+    private String AccountNumber;
+    private String OwnerFName,OwnerLName, OwnerEmail;
+    private String Pin;
+    private ArrayList<Transaction> TRANSACTIONS;
+
+    //Methods
+    public Account(Bank bank, String accountNumber,String FirstName,String LastName, String Email,String pin)
     {
-        return this.bank;
-    }
-    public String getPin() {
-        return pin;
-    }
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public String getOwnerFullName() {
-        return ownerFName + " " + ownerLName;
+        this.BANK=bank;
+        this.AccountNumber=accountNumber;
+        this.OwnerFName=FirstName;
+        this.OwnerLName=LastName;
+        this.OwnerEmail=Email;
+        this.Pin=pin;
     }
 
-    public void addNewTransaction(String accountNum, Transaction.Transactions type, String description) {
-        transactions.add(new Transaction(accountNum, type, description));
+    public String getAccountNumber()
+    {
+        return this.AccountNumber;
     }
 
-    public String getTransactionsInfo() {
-        StringBuilder info = new StringBuilder();
-        info.append("=====Transactions=====");
-        for (Transaction transaction : transactions) {
-            info.append(transaction.toString()).append("\n");
+    public String getOwnerFullName()
+    {
+        return OwnerLName+", "+ OwnerFName;
+    }
+
+    public void addNewTransaction(String accountNumber, Transaction.Transactions type, String description)
+    {
+        Transaction newTransaction= new Transaction(accountNumber,type,description);
+        this.TRANSACTIONS.add(newTransaction);
+    }
+
+    public String getTransactionsInfo()
+    {
+        Main.showMenuHeader("Transactions");
+        StringBuilder result= new StringBuilder();
+        for(Transaction transaction:this.TRANSACTIONS)
+        {
+            String result1=String.format("Account Number: "+transaction.accountNumber+"\tTransaction Type: "+transaction.transactionType+"\tDescription: "+transaction.description);
+            result.append(result1);
         }
-        return info.toString();
+        return result.toString();
     }
 
-    @Override
-    public String toString() {
-        return "Account Number: " + accountNumber + ", Owner: " + getOwnerFullName();
+    public String toString()
+    {
+        return String.format("Account Owner: %s\n",this.getOwnerFullName());
     }
 }
-

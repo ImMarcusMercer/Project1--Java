@@ -1,82 +1,67 @@
 package Accounts;
 
 import Bank.*;
+
+import java.sql.Savepoint;
+import java.util.*;
 import Launchers.*;
-import Accounts.Deposit;
-import Accounts.FundTransfer;
-import Accounts.IllegalAccountType;
-import Accounts.Withdrawal;
+import Main.Main;
 
-public class SavingsAccount extends Account implements Withdrawal, Deposit, FundTransfer {
-    private double balance;
+public class SavingsAccount extends Account
+{
+    private double Balance;
 
-    public SavingsAccount(Bank bank, String accNum, String ownerFName, String ownerLName, String ownerEmail, String pin, double balance) {
-        super(bank, accNum, ownerFName,ownerLName, ownerEmail, pin);
-        this.balance = balance;
-    }
 
-    public double getBalance() {
-        return balance;
-    }
-
-    public void setBalance(double balance) {
-        this.balance = balance;
-    }
-
-    public String getAccountBalance() {
-        return "Balance: " + balance;
-    }
-
-    // @Override
-    public void insufficientBalance() {
-        System.out.println("Insufficient balance!");
-    }
-
-    // @Override
-    public void adjustAccountBalance(double amount) {
-        this.balance += amount;
-    }
-
-    // @Override
-    public boolean hasEnoughBalance(double amount) {
-        return this.balance >= amount;
-    }
-
-    @Override
-    public boolean transfer(Bank bank, Account account, double amount) throws IllegalAccountType {
-        return transfer(account, amount);
-    }
-
-    @Override
-    public boolean transfer(Account account, double amount) throws IllegalAccountType {
-
-        if (amount > this.balance) {
-            System.out.println("Insufficient Funds!");
-            return false;
-        }
-        balance -= amount;
-        addNewTransaction(accountNumber, Transaction.Transactions.FundTransfer,
-                String.format("Transferred %.2f to %s", amount, account.getAccountNumber()));
-        ((SavingsAccount) account).cashDeposit(amount);
-        return true;
-    }
-
-    @Override
-    public boolean cashDeposit(double amount)
+    public SavingsAccount(Bank bank, String accountNumber,String FirstName,String LastName, String Email,String pin, double initialDeposit)
     {
-        this.balance+=amount;
-        return true;
+        super(bank,accountNumber,FirstName,LastName,Email,pin);
+        this.Balance=initialDeposit;
     }
 
-    @Override
-    public boolean withdrawal(double amount)
+    //Methods
+    public String getAccountBalanceStatement()
     {
-        if (hasEnoughBalance(amount)) {
-            adjustAccountBalance(- amount);
-            System.out.println("Withdrawal successful. New balance: " + balance);
-            return true;
+        return String.format("Account Balance: %f",this.Balance);
+    }
+
+    private boolean hasEnoughBalance(double amount)
+    {
+        return this.Balance >= amount;
+    }
+
+    private void insufficientBalance(double amount)
+    {
+        if(this.Balance<amount)
+        {
+            Main.print("Account has insufficient Balance.");
         }
-        insufficientBalance();
-        return false;
+    }
+
+    private void adjustAccountBalance(double amount)
+    {
+        if(this.Balance+amount<0)
+        {
+            this.Balance=0;
+        }
+        this.Balance+=amount;
+    }
+
+    public String toString()
+    {
+        return String.format("Account Number: %s\n%s\nOwner: %s",getAccountNumber(),getAccountBalanceStatement(),getOwnerFullName());
+    }
+
+    //Additional Methods
+    public void transfer(Account account, double amount)throws IllegalAccountType
+    {
+        if(account!=null&&hasEnoughBalance(amount)&&account.getClass().isInstance(SavingsAccount.class))
+        {
+            adjustAccountBalance(-amount);
+            addNewTransaction(this.getAccountNumber(),Transaction.Transactions.FundTransfer,"Transferred Amount: "+amount+" to Recipient: "+account.getAccountNumber());
+        }
+    }
+    public void transfer(Bank bank, Account account, double amount)
+    {
+        //
     }
 }

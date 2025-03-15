@@ -1,11 +1,10 @@
 package Main;
 
-import java.util.List;
+import Accounts.CreditAccount;
+import Accounts.SavingsAccount;
+import Bank.Bank;
+import Launchers.BankLauncher;
 import java.util.Scanner;
-
-import Accounts.*;
-import Bank.*;
-import Launchers.*;
 
 public class Main
 {
@@ -19,14 +18,17 @@ public class Main
      * @see #prompt(String, boolean)
      * @see #setOption() How Field objects are used.
      */
-    public static Field<Integer, Integer> option = new Field<Integer, Integer>("Option", Integer.class, -1, new Field.IntegerFieldValidator());
+    public static Field<Integer, Integer> option = new Field<Integer, Integer>("Option",
+            Integer.class, -1, new Field.IntegerFieldValidator());
+
     public static void main(String[] args)
     {
-        BankLauncher BLauncher = new BankLauncher();
-        Bank CheckBank = null;
-        Bank Bank1 = new Bank(1,"BDO","123",10000.0,10000.0,1000.0,100.0);
-        BankLauncher.addBank(Bank1);
-
+        Bank BDO=new Bank(1111,"BDO","0987");
+        CreditAccount cred=new CreditAccount(BDO,"1234","Johnny","Bravo","bravo@gmail.com","0987");
+        BDO.addNewAccount(cred);
+        SavingsAccount savingsAccount=new SavingsAccount(BDO, "1112","Johnny","Sinns","sinns@gmail.com","12324",10000);
+        BDO.addNewAccount(savingsAccount);
+        BankLauncher.addBank(BDO);
         while (true)
         {
             showMenuHeader("Main Menu");
@@ -41,133 +43,30 @@ public class Main
                 showMenuHeader("Account Login Menu");
                 showMenu(2, 1);
                 setOption();
-//                showMenu(getOption(), 1);
+                showMenu(getOption(), 1);
                 // TODO: Complete this portion
                 if(getOption()==1)
                 {
-                    showMenuHeader("Choose Account Type");
-                    showMenu(33);
-                    setOption();
-                    if(getOption()==1)
-                    {
-                        //Choose bank
-                        showMenuHeader("Select Bank");
-                        BankLauncher.showBanksMenu();
-                        if(BankLauncher.bankSize()!=0)
-                        {
-                            String bankName =prompt("Enter Bank Name:",true);
-                            BankLauncher.bankLogin(bankName);
-                            //Credit account login
-                            showMenuHeader("Credit Account Login");
-                            CreditAccountLauncher.login();
-                            Account Logged= AccountLauncher.getLoggedAccount();
-                            if(Logged instanceof CreditAccount CA)
-                            {
-                                CreditAccountLauncher.login(CA);
-                                CreditAccountLauncher.creditAccountInit();
-                            }
 
-                        }
-                        else {System.out.println();}
-
-                    }
-                    //Savings account login
-                    else if(getOption()==2)
-                    {
-                        //Choose bank
-                        showMenuHeader("Select Bank");
-                        BankLauncher.showBanksMenu();
-                        if(BankLauncher.bankSize()!=0)
-                        {
-                            String bankName =prompt("Enter Bank Name:",true);
-                            BankLauncher.bankLogin(bankName);
-                            //Savings account login
-                            showMenuHeader("Savings Account Login");
-                            SavingsAccountLauncher.login();
-                            Account Logged= AccountLauncher.getLoggedAccount();
-                            if(Logged instanceof SavingsAccount SA)
-                            {
-                                SavingsAccountLauncher.login(SA);
-                                SavingsAccountLauncher.savingsAccountInit();
-                            }
-
-                        }
-                        else {System.out.println();}
-                    }
                 }
-                else if(getOption()==0)
+                else if (getOption()==2)
                 {
-                    break;
                 }
-
-
+                else
+                {
+                    System.out.println("Invalid option!");
+                }
             }
             // Bank Option
             else if (getOption() == 2)
             {
                 // TODO: Complete Bank option
-                showMenuHeader("Banks");
-                BankLauncher.showBanksMenu();
-                showMenuHeader("Bank Login");
-                showMenu(3);
-                setOption();
-                if(getOption()==1) {
-                    String bankName = prompt("Enter Bank Name: ", true);
-                    BankLauncher.bankLogin(bankName);
-                    Bank bank = BankLauncher.getLoggedBank();
-                    if (bank != null) {
-                        showMenuHeader("My "+bank.getName()+" Accounts");
-                        showMenu(31);
-                        setOption();
-                        //Bank show accounts Menu
-                        switch (getOption()) {
-                            //Show Accounts
-                            case 1 -> { 
-                                Bank loggedBank = BankLauncher.getLoggedBank();
-                                if (loggedBank != null) {
-                                    showMenuHeader("Accounts in " + loggedBank.getName());
-                            
-                                    List<Account> accounts = loggedBank.getBANKACCOUNTS();
-                            
-                                    if (accounts == null || accounts.isEmpty()) {
-                                        System.out.println(" No accounts found in " + loggedBank.getName());
-                                    } else {
-                                        System.out.println(" List of Accounts:");
-                                        for (Account account : accounts) {
-                                            System.out.println(" Account Number: " + account.getAccountNumber());
-                                            System.out.println("   Name: " + account.getOwnerFullName()); 
-                                            if (account instanceof SavingsAccount sa) {
-                                                System.out.println("   Balance: $" + sa.getBalance());
-                                            } else if (account instanceof CreditAccount ca) {
-                                                System.out.println("   Credit Limit: $" + ca.getLoanStatement());
-                                            }
-                                            System.out.println("----------------------------------");
-                                        }
-                                    }
-                                } else {
-                                    System.out.println(" No Bank is currently logged in.");
-                                }
-                            }
-                            
-                     
-                            //Create New Account
-                            case 2 -> {
-                                //TODO: Complete this option (Aljen)
-                            }
-                            //Logout
-                            case 3 -> {
-                                BankLauncher.logoutBank();
-                            }
-                        }
-                    }
-                }
+                BankLauncher.bankLogin();
             }
             // Create New Bank
             else if (getOption() == 3)
             {
                 // TODO: Complete this portion...
-                showMenuHeader("Creating New Bank");
-                BankLauncher.createNewBank();
             }
             else if (getOption() == 4)
             {
@@ -277,5 +176,9 @@ public class Main
     public static void showMenuHeader(String menuTitle)
     {
         System.out.printf("<---- %s ----->\n", menuTitle);
+    }
+    public static void print(String value)
+    {
+        System.out.println(value);
     }
 }
