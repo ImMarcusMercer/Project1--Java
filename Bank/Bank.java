@@ -33,6 +33,10 @@ public class Bank {
     }
 
     //Bank Methods
+    public ArrayList<Account> getBANKACCOUNTS()
+    {
+        return BANKACCOUNTS;
+    }
     public int getID()
     {
         return ID;
@@ -47,6 +51,10 @@ public class Bank {
 
     public <T> void showAccounts(Class<T> AccountType)
     {
+        if(BANKACCOUNTS.isEmpty())
+        {
+            Main.print("No registered Accounts");
+        }
         for(Account acc:BANKACCOUNTS)
         {
             if(acc.getClass().isInstance(AccountType))
@@ -58,11 +66,17 @@ public class Bank {
 
     public Account getBankAccount(Bank bank, String AccountNumber)
     {
-        for(Account account:BANKACCOUNTS)
+        for(Bank b:BankLauncher.getBankList())
         {
-            if(account.getAccountNumber().equals(AccountNumber))
+            if(b.equals(bank))
             {
-                return account;
+                for(Account account:b.getBANKACCOUNTS())
+                {
+                    if(account.getAccountNumber().equals(AccountNumber))
+                    {
+                        return account;
+                    }
+                }
             }
         }
         return null;
@@ -130,12 +144,14 @@ public class Bank {
 
     public void addNewAccount(Account account)
     {
-        if(!accountExists(BankLauncher.getLoggedBank(),account.getAccountNumber())) {
-            BANKACCOUNTS.add(account);
-        }
-        else {
-            Main.print("Account already exists");
-        }
+        BANKACCOUNTS.add(account);
+        //uncomment after everything
+//        if(!accountExists(BankLauncher.getLoggedBank(),account.getAccountNumber())) {
+//            BANKACCOUNTS.add(account);
+//        }
+//        else {
+//            Main.print("Account already exists");
+//        }
     }
     public static boolean accountExists(Bank bank, String AccountNumber)
     {
@@ -155,6 +171,6 @@ public class Bank {
 
     public String toString()
     {
-        return "";
+        return "Bank Name: "+name+"\nRegistered Accounts: "+BANKACCOUNTS.size();
     }
 }

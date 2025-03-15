@@ -19,11 +19,65 @@ public class BankLauncher {
     {
         return LoggedBank!=null;
     }
+    public static ArrayList<Bank> getBankList()
+    {
+        return BANKS;
+    }
 
     public static void BankINIT()
     {
-
-
+        INIT:
+        while(true)
+        {
+            if(LoggedBank!=null)
+            {
+                Main.showMenuHeader("Bank Menu");
+//        "Show Accounts", "New Accounts", "Log Out";
+                Main.showMenu(31);
+                Main.setOption();
+                switch (Main.getOption())
+                {
+                    //Show Accounts
+                    case 1->{
+                        //"Credit Accounts", "Savings Accounts", "All Accounts", "Go Back"
+                        Main.showMenuHeader(LoggedBank.getName()+" Accounts");
+                        Main.showMenu(32);
+                        Main.setOption();
+                        if(Main.getOption()==1)
+                        {
+                            Main.showMenuHeader("Credit Accounts");
+                            LoggedBank.showAccounts(CreditAccount.class);
+                        }
+                        else if(Main.getOption()==2)
+                        {
+                            Main.showMenuHeader("Savings Accounts");
+                            LoggedBank.showAccounts(SavingsAccount.class);
+                        }
+                        else if(Main.getOption()==3)
+                        {
+                            Main.showMenuHeader("All Accounts");
+                            LoggedBank.showAccounts(Account.class);
+                        }
+                        else
+                        {
+                            Main.print("Invalid Choice");
+                            return;
+                        }
+                    }
+                    //New Accounts
+                    case 2->{}
+                    case 3-> {
+                        logOut();
+                        break INIT;
+                    }
+                }
+            }
+            else
+            {
+                Main.print("No bank selected!");
+                break;
+            }
+        }
 
     }
 
@@ -64,6 +118,7 @@ public class BankLauncher {
 
     public static void bankLogin()
     {
+        Login:
         while(true)
         {
             Main.showMenuHeader("Bank");
@@ -77,21 +132,38 @@ public class BankLauncher {
                     System.out.print("Enter Bank ID: ");
                     int bankID=input.nextInt();
                     input.nextLine();
-                    System.out.print("Enter 4-Digit PIN: ");
-                    String bankPin=input.nextLine();
-//                    input.nextLine();
-                    Bank found=null;
                     for(Bank b: BANKS)
                     {
-                        if(b.getID()==bankID&&b.getPasscode().equals(bankPin))
+                        if(b.getID()==bankID)
                         {
-                            found=b;
+                            int i= 0;
+                            while(i<3)
+                            {
+                                i++;
+                                System.out.print("Enter 4-Digit PIN: ");
+                                String bankPin=input.nextLine();
+                                if(b.getPasscode().equals(bankPin))
+                                {
+                                    setLogSession(b);
+                                    BankINIT();
+                                    break Login;
+                                }
+                                if(i==3)
+                                {
+                                    Main.print("Too many unsuccessful attempts");
+                                    break;
+                                }
+                                else
+                                {
+                                    System.out.println("Invalid pin");
+                                }
+                            }
                         }
-                    }
-                    if (found != null) {
-                        setLogSession(found);
-                        BankINIT();
-                        return;
+                        else
+                        {
+                            Main.print("Bank Not found");
+
+                        }
                     }
 
                 }
@@ -167,8 +239,8 @@ public class BankLauncher {
         return null;
     }
 
-//    public static int bankSize()
-//    {
-//        LoggedBank;
-//    }
+    public static int bankSize()
+    {
+        return BANKS.size();
+    }
 }

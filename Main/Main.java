@@ -1,10 +1,9 @@
 package Main;
 
-import Accounts.CreditAccount;
-import Accounts.SavingsAccount;
-import Bank.Bank;
-import Launchers.BankLauncher;
-import java.util.Scanner;
+import Accounts.*;
+import Bank.*;
+import Launchers.*;
+import java.util.*;
 
 public class Main
 {
@@ -24,11 +23,11 @@ public class Main
     public static void main(String[] args)
     {
         Bank BDO=new Bank(1111,"BDO","0987");
+        BankLauncher.addBank(BDO);
         CreditAccount cred=new CreditAccount(BDO,"1234","Johnny","Bravo","bravo@gmail.com","0987");
         BDO.addNewAccount(cred);
         SavingsAccount savingsAccount=new SavingsAccount(BDO, "1112","Johnny","Sinns","sinns@gmail.com","12324",10000);
         BDO.addNewAccount(savingsAccount);
-        BankLauncher.addBank(BDO);
         while (true)
         {
             showMenuHeader("Main Menu");
