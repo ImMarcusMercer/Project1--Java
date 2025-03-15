@@ -7,17 +7,22 @@ import java.util.*;
 public class SavingsAccountLauncher extends AccountLauncher {
     public static void savingsAccountInit()
     {
-
+        System.out.println("Welcomet to Savings Account. Displaying main menu");
     }
 
-    private static  void depositProcess()
+    private static  void depositProcess(double amount)
     {
-
+        System.out.println("Processing deposit of: ₱" + amount);
     }
 
-    private static void fundTransferProcess()
+    public void withdrawProcess(double amount)
     {
+        System.out.println("Processing withdrawal of: ₱" + amount);
+    }
 
+    private static void fundTransferProcess(String recipientacc, double amout)
+    {
+        System.out.println("Trasferring ₱" + amout + "To Account: " + recipientacc);
     }
 
     protected static SavingsAccount getLoggedAccount()
