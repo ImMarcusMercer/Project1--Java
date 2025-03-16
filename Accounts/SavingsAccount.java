@@ -48,7 +48,7 @@ public class SavingsAccount extends Account
 
     public String toString()
     {
-        return String.format("Account Number: %s\n%s\nOwner: %s",getAccountNumber(),getAccountBalanceStatement(),getOwnerFullName());
+        return String.format("Savings Account\nAccount Number: %s\n%s\nOwner: %s\n",getAccountNumber(),getAccountBalanceStatement(),getOwnerFullName());
     }
 
     //Additional Methods

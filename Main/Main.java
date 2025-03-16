@@ -42,14 +42,14 @@ public class Main
                 showMenuHeader("Account Login Menu");
                 showMenu(2, 1);
                 setOption();
-                showMenu(getOption(), 1);
                 // TODO: Complete this portion
                 if(getOption()==1)
                 {
-
+                    AccountLauncher.accountLogin();
                 }
                 else if (getOption()==2)
                 {
+                    print("Exiting Accounts Login");
                 }
                 else
                 {
@@ -66,6 +66,7 @@ public class Main
             else if (getOption() == 3)
             {
                 // TODO: Complete this portion...
+                BankLauncher.createNewBank();
             }
             else if (getOption() == 4)
             {

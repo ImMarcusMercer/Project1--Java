@@ -3,8 +3,7 @@ package Bank;
 import Accounts.*;
 import Launchers.BankLauncher;
 import Main.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class Bank {
     private int ID;
@@ -51,17 +50,60 @@ public class Bank {
 
     public <T> void showAccounts(Class<T> AccountType)
     {
-        if(BANKACCOUNTS.isEmpty())
-        {
-            Main.print("No registered Accounts");
-        }
-        for(Account acc:BANKACCOUNTS)
-        {
-            if(acc.getClass().isInstance(AccountType))
-            {
-                System.out.println(acc);
+            boolean found = false;
+            for (Account account : BANKACCOUNTS) {
+                if (AccountType.isInstance(account)) {
+                    System.out.println(account);
+                    found = true;
+                }
             }
-        }
+            if (!found) {
+                System.out.println("There are currently no accounts stored.");
+            }
+//        if(AccountType.isInstance(CreditAccount.class))
+//        {
+//            boolean found = false;
+//            Main.showMenuHeader("Credit Accounts");
+//            for (Account account : BANKACCOUNTS) {
+//                if (AccountType.isInstance(account)) {
+//                    System.out.println(account);
+//                    found = true;
+//                }
+//            }
+//            if (!found) {
+//                System.out.println("There are currently no accounts stored.");
+//            }
+//        }
+//        else if(AccountType.isInstance(SavingsAccount.class))
+//        {
+//            boolean found = false;
+//            Main.showMenuHeader("Savings Accounts");
+//            for (Account account : BANKACCOUNTS) {
+//                if (AccountType.isInstance(account)) {
+//                    System.out.println(account);
+//                    found = true;
+//                }
+//            }
+//            if (!found) {
+//                System.out.println("There are currently no accounts stored.");
+//            }
+//        }
+//        else if (AccountType.isInstance(Account.class))
+//        {
+//            boolean found = false;
+//            Main.showMenuHeader("All Accounts in "+name);
+//            for (Account account : BANKACCOUNTS) {
+//                if (AccountType.isInstance(account)) {
+//                    System.out.println(account);
+//                    found = true;
+//                }
+//            }
+//            if (!found) {
+//                System.out.println("There are currently no accounts stored.");
+//            }
+//        }
+
+
     }
 
     public Account getBankAccount(Bank bank, String AccountNumber)
@@ -122,9 +164,7 @@ public class Bank {
         String pin = accountFields.get(4).getFieldValue();
         double initialDeposit = Double.parseDouble(accountFields.get(5).getFieldValue());
 
-        SavingsAccount newAcc = new SavingsAccount(this, idNumber, firstName, lastName, email, pin, initialDeposit);
-        BANKACCOUNTS.add(newAcc);
-        return newAcc;
+        return new SavingsAccount(this, idNumber, firstName, lastName, email, pin, initialDeposit);
     }
 
     public CreditAccount createNewCreditAccount() {
@@ -137,21 +177,18 @@ public class Bank {
         String email = accountFields.get(3).getFieldValue();
         String pin = accountFields.get(4).getFieldValue();
 
-        CreditAccount newAcc = new CreditAccount(this, idNumber, firstName, lastName, email, pin);
-        BANKACCOUNTS.add(newAcc);
-        return newAcc;
+        return new CreditAccount(this, idNumber, firstName, lastName, email, pin);
+
     }
 
     public void addNewAccount(Account account)
     {
-        BANKACCOUNTS.add(account);
-        //uncomment after everything
-//        if(!accountExists(BankLauncher.getLoggedBank(),account.getAccountNumber())) {
-//            BANKACCOUNTS.add(account);
-//        }
-//        else {
-//            Main.print("Account already exists");
-//        }
+        if(!accountExists(BankLauncher.getLoggedBank(),account.getAccountNumber())) {
+            BANKACCOUNTS.add(account);
+        }
+        else {
+            Main.print("Account already exists");
+        }
     }
     public static boolean accountExists(Bank bank, String AccountNumber)
     {
@@ -173,4 +210,27 @@ public class Bank {
     {
         return "Bank Name: "+name+"\nRegistered Accounts: "+BANKACCOUNTS.size();
     }
+
+    //Sub classes
+    public class Bankcomparator implements Comparator<Bank> {
+        @Override
+        public int compare(Bank b1, Bank b2) {
+            return b1.getName().compareTo(b2.getName());
+        }
+    }
+    public class BankCredComparator implements Comparator<Bank> {
+        @Override
+        public int compare(Bank b1, Bank b2) {
+            return b1.getPasscode().compareTo(b2.getPasscode());
+        }
+    }
+    public static class BankIdComparator implements Comparator<Bank> {
+        @Override
+        public int compare(Bank b1, Bank b2) {
+            return Integer.compare(b1.getID(), b2.getID());
+        }
+    }
 }
+
+
+

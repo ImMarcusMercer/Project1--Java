@@ -30,6 +30,6 @@ public class CreditAccount extends Account{
 
     public String toString()
     {
-        return "CA";
+        return "Credit Account\nAccount Number: "+getAccountNumber()+"\nOwner: "+getOwnerFullName()+"\n"+getLoanStatement()+"\n";
     }
 }

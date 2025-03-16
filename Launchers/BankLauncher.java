@@ -1,5 +1,6 @@
 package Launchers;
 
+import java.sql.Savepoint;
 import java.util.*;
 import Accounts.*;
 import Main.*;
@@ -22,6 +23,13 @@ public class BankLauncher {
     public static ArrayList<Bank> getBankList()
     {
         return BANKS;
+    }
+    public static void setBankSession(Bank bank)
+    {
+        if(bank!=null)
+        {
+            LoggedBank=bank;
+        }
     }
 
     public static void BankINIT()
@@ -65,7 +73,31 @@ public class BankLauncher {
                         }
                     }
                     //New Accounts
-                    case 2->{}
+                    case 2->{
+                        //New account creation
+                        Main.showMenuHeader("Select Account Type");
+                        Main.showMenu(33);
+                        Main.setOption();
+                        //New Credit account
+                        if(Main.getOption()==1)
+                        {
+                            CreditAccount newCred=LoggedBank.createNewCreditAccount();
+                            if(newCred!=null)
+                            {
+                                LoggedBank.addNewAccount(newCred);
+                            }
+                        }
+                        //New Savings Account
+                        else if(Main.getOption()==2)
+                        {
+                            SavingsAccount newSave=LoggedBank.createNewSavingsAccount();
+                            if(newSave!=null)
+                            {
+                                LoggedBank.addNewAccount(newSave);
+                            }
+                        }
+                        else {Main.print("Invalid Option");}
+                    }
                     case 3-> {
                         logOut();
                         break INIT;
@@ -81,7 +113,7 @@ public class BankLauncher {
 
     }
 
-    public static void showAccounts()
+    private static void showAccounts()
     {
         do {
             Main.showMenuHeader("Show Account Options");
@@ -111,7 +143,7 @@ public class BankLauncher {
 
     }
 
-    public static void newAccounts()
+    private static void newAccounts()
     {
 
     }
@@ -169,6 +201,7 @@ public class BankLauncher {
                 }
             }
             else if (Main.getOption()==2) {
+                Main.print("Exiting Bank Login");
                 return;
             }
         }
@@ -188,7 +221,39 @@ public class BankLauncher {
 
     public static void createNewBank()
     {
+        Main.showMenuHeader("Create New Bank");
 
+        int bankID;
+        String bankName, bankPIN;
+
+        while (true) {
+            try {
+                bankID = Integer.parseInt(Main.prompt("Enter Bank ID: ", true));
+                int finalBankID = bankID;
+                if (BANKS.stream().anyMatch(b -> b.getID() == finalBankID)) {
+                    Main.print("Bank ID already exists! Try again.");
+                    continue;
+                }
+
+                bankName = Main.prompt("Enter Bank Name: ", true).trim();
+                if (bankName.isEmpty()) {
+                    Main.print("Bank name cannot be empty! Try again.");
+                    continue;
+                }
+
+                bankPIN = Main.prompt("Enter 4-Digit PIN: ", true);
+                if (!bankPIN.matches("\\d{4}")) {
+                    Main.print("Invalid PIN! Must be exactly 4 digits.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                Main.print("Invalid input! Bank ID must be a number.");
+            }
+        }
+
+        addBank(new Bank(bankID, bankName, bankPIN));
+        Main.print("Bank successfully created!");
     }
 
     public static void showBanksMenu()
@@ -231,10 +296,11 @@ public class BankLauncher {
         for(Bank bank:BANKS)
         {
             Account account=LoggedBank.getBankAccount(bank,accountNumber);
-            if(account!=null&&account.getAccountNumber().equals(accountNumber))
+            if(account!=null && account.getAccountNumber().equals(accountNumber))
             {
                 return account;
             }
+
         }
         return null;
     }

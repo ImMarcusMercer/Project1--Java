@@ -17,18 +17,80 @@ public class AccountLauncher {
         return loggedAccount != null;
     }
 
-    //Done?
     public static void accountLogin()
     {
-        String accountNum = Main.prompt("Enter Account Number: ", true);
-        String pin = Main.prompt("Enter 4-digit PIN: ", false);
+        Main:
+        while(true)
+        {
+            Bank loginBank=selectBank();
+            if(loginBank!=null)
+            {
+                BankLauncher.setBankSession(loginBank);
+                if(BankLauncher.getLoggedBank()!=null)
+                {
+                    Main.showMenuHeader("Select Account Type");
+                    Main.showMenu(33);
+                    Main.setOption();
+                    //Credit account
+                    if(Main.getOption()==1)
+                    {
+                        int tries=0;
+                        Main.showMenuHeader("Credit Account Login");
+                        while(true)
+                        {
+                            tries+=1;
+                            String accnum=Main.prompt("Enter Account Number: ",true);
+                            Account found = BankLauncher.getLoggedBank().getBankAccount(loginBank,accnum);
+                            if(found!=null&&found.getClass().isInstance(CreditAccount.class))
+                            {
+                                int tris2=0;
+                                while(true)
+                                {
+                                    tris2+=1;
+                                    String pin=Main.prompt("Enter Pin: ",true);
+                                    if(found.getPin().equals(pin))
+                                    {
+                                        setLogSession(found);
+                                        if(getLoggedAccount()!=null)
+                                        {
+                                            CreditAccountLauncher.credAccountInit();
+                                            destroyLogSession();
+                                        }
+                                    }
+                                    else {
+                                        Main.print("Invalid Pin!");
+                                    }
+                                    if(tris2==3)
+                                    {
+                                        Main.print("Too many unsuccessful attempts!");
+                                        break;
+                                    }
+                                }
+                            }
+                            if(tries==3)
+                            {
+                                Main.print("Too many unsuccessful attempts!");
+                                break Main;
+                            }
+                            else {
+                                Main.print("Invalid Account!");
+                            }
+                        }
+                    }
+                    //Savings Account
+                    else if(Main.getOption()==2){}
+                    else {
+                        Main.print("Invalid Input!");
+                        break;
+                    }
 
-        Account account = checkCredentials(accountNum, pin);
-        if (account != null) {
-            setLogSession(account);
-            System.out.println("Login successful!");
-        } else {
-            System.out.println("Invalid credentials. Please try again.");
+                }
+            }
+            else
+            {
+                Main.print("Bank Not Found");
+                break;
+            }
         }
     }
 
@@ -37,7 +99,7 @@ public class AccountLauncher {
     {
         Main.showMenuHeader("Bank Selection");
         BankLauncher.showBanksMenu();
-        Main.print("Enter Bank ID: ");
+        System.out.print("Enter Bank ID: ");
         int bankId=input.nextInt();
         input.nextLine();
         for(Bank b :BankLauncher.getBankList())
