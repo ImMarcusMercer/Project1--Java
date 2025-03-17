@@ -20,10 +20,7 @@ public abstract class Account {
         this.OwnerLName=LastName;
         this.OwnerEmail=Email;
         this.Pin=pin;
-    }
-    public Bank getBANK()
-    {
-        return BANK;
+        this.TRANSACTIONS=new ArrayList<>();
     }
     public String getPin()
     {
@@ -49,10 +46,16 @@ public abstract class Account {
     public String getTransactionsInfo()
     {
         Main.showMenuHeader("Transactions");
+
         StringBuilder result= new StringBuilder();
+        if(TRANSACTIONS.isEmpty())
+        {
+            result.append("No Transactions");
+            return result.toString();
+        }
         for(Transaction transaction:this.TRANSACTIONS)
         {
-            String result1=String.format("Account Number: "+transaction.accountNumber+"\tTransaction Type: "+transaction.transactionType+"\tDescription: "+transaction.description);
+            String result1=String.format("Account Number: "+transaction.accountNumber+"\tTransaction Type: "+transaction.transactionType+"\tDescription: "+transaction.description+"\n");
             result.append(result1);
         }
         return result.toString();

@@ -7,10 +7,14 @@ import java.util.*;
 import Launchers.*;
 import Main.Main;
 
-public class SavingsAccount extends Account
+public class SavingsAccount extends Account implements Withdrawal,Deposit,FundTransfer
 {
     private double Balance;
 
+    public String showBalance()
+    {
+        return "Remaining Balance: ₱"+Balance;
+    }
 
     public SavingsAccount(Bank bank, String accountNumber,String FirstName,String LastName, String Email,String pin, double initialDeposit)
     {
@@ -21,7 +25,7 @@ public class SavingsAccount extends Account
     //Methods
     public String getAccountBalanceStatement()
     {
-        return String.format("Account Balance: %.2f",this.Balance);
+        return String.format("Account Balance: ₱%.2f",this.Balance);
     }
 
     private boolean hasEnoughBalance(double amount)
@@ -52,16 +56,37 @@ public class SavingsAccount extends Account
     }
 
     //Additional Methods
-    public void transfer(Account account, double amount)throws IllegalAccountType
+    @Override
+    public boolean transfer(Account account, double amount)throws IllegalAccountType
     {
         if(account!=null&&hasEnoughBalance(amount)&&account.getClass().isInstance(SavingsAccount.class))
         {
             adjustAccountBalance(-amount);
             addNewTransaction(this.getAccountNumber(),Transaction.Transactions.FundTransfer,"Transferred Amount: "+amount+" to Recipient: "+account.getAccountNumber());
+            return true;
         }
+        return false;
     }
-    public void transfer(Bank bank, Account account, double amount)
+
+    @Override
+    public boolean transfer(Bank bank, Account account, double amount)
     {
-        //
+        return false;
+    }
+
+    @Override
+    public boolean cashDeposit(double amount) {
+        Balance+=amount;
+        return true;
+    }
+
+    @Override
+    public boolean withdrawal(double amount) {
+        if(Balance>=amount)
+        {
+            Balance -= amount;
+            return true;
+        }
+        return false;
     }
 }

@@ -47,30 +47,7 @@ public class BankLauncher {
                 {
                     //Show Accounts
                     case 1->{
-                        //"Credit Accounts", "Savings Accounts", "All Accounts", "Go Back"
-                        Main.showMenuHeader(LoggedBank.getName()+" Accounts");
-                        Main.showMenu(32);
-                        Main.setOption();
-                        if(Main.getOption()==1)
-                        {
-                            Main.showMenuHeader("Credit Accounts");
-                            LoggedBank.showAccounts(CreditAccount.class);
-                        }
-                        else if(Main.getOption()==2)
-                        {
-                            Main.showMenuHeader("Savings Accounts");
-                            LoggedBank.showAccounts(SavingsAccount.class);
-                        }
-                        else if(Main.getOption()==3)
-                        {
-                            Main.showMenuHeader("All Accounts");
-                            LoggedBank.showAccounts(Account.class);
-                        }
-                        else
-                        {
-                            Main.print("Invalid Choice");
-                            return;
-                        }
+                        showAccounts();
                     }
                     //New Accounts
                     case 2->{
@@ -122,12 +99,16 @@ public class BankLauncher {
             //"Credit Accounts", "Savings Accounts", "All Accounts", "Go Back"
             switch (show) {
                 case "1" -> {
+
+                    Main.showMenuHeader("Credit Accounts");
                     LoggedBank.showAccounts(CreditAccount.class);
                 }
                 case "2" -> {
+                    Main.showMenuHeader("Savings Accounts");
                     LoggedBank.showAccounts(SavingsAccount.class);
                 }
                 case "3" -> {
+                    Main.showMenuHeader("All Accounts");
                     LoggedBank.showAccounts(Account.class);
                 }
                 case "4" -> {
@@ -140,7 +121,6 @@ public class BankLauncher {
             }
             break;
         } while (true);
-
     }
 
     private static void newAccounts()
@@ -191,13 +171,9 @@ public class BankLauncher {
                                 }
                             }
                         }
-                        else
-                        {
-                            Main.print("Bank Not found");
 
-                        }
                     }
-
+                    Main.print("Bank Not found");
                 }
             }
             else if (Main.getOption()==2) {

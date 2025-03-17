@@ -7,9 +7,12 @@ import Main.*;
 
 public class CreditAccountLauncher extends AccountLauncher
 {
-    public static void credAccountInit(CreditAccount loggedAccount) throws IllegalAccountType {
+    public static void credAccountInit()
+    {
+        Account current= AccountLauncher.getLoggedAccount();
         Class<CreditAccount> creditAccountClass = CreditAccount.class;
-        if (loggedAccount != null)
+        if (creditAccountClass.isInstance(current))
+
         {
             Main.showMenuHeader("Credit Account Menu");
             Main.showMenu(41);
@@ -17,17 +20,11 @@ public class CreditAccountLauncher extends AccountLauncher
             //"Show Credits", "Pay", "Recompense", "Show Transactions", "Logout"
             switch (Main.getOption())
             {
-                case 1->
-                {
+                case 1->{
+//                    current.
+                }
+                case 2->{
 
-                }
-                case 2->
-                {
-                    creditPaymentProcess(loggedAccount);
-                }
-                case 3->
-                {
-                    loggedAccount.getTransactionsInfo();
                 }
             }
         }
@@ -38,36 +35,12 @@ public class CreditAccountLauncher extends AccountLauncher
 
     }
 
-    private static void creditPaymentProcess(CreditAccount loggedAccount) throws IllegalAccountType {
-        if(loggedAccount.getClass().isInstance(CreditAccount.class))
-        {
-            Field<String, String> targetaccountnumberField = new Field<String,String>("targetAccount",
-                    String.class, " ", new Field.StringFieldValidator());
-            targetaccountnumberField.setFieldValue("Enter target account number: ");
-            String accountNumber = targetaccountnumberField.getFieldValue();
+    private static void creditPaymentProcess()
+    {
 
-            // Field for entering the amount to pay
-            Field<Double, Double> amountField = new Field<Double, Double>("amount",
-                    Double.class, 0.0, new Field.DoubleFieldValidator());
-            amountField.setFieldValue("Enter target account number: "); // Mistake in prompt text, should be "Enter amount to pay:"
-            double amountToPay = amountField.getFieldValue();
-
-            // Find the target account and attempt the payment
-            Account targetAccount = BankLauncher.findaccount(accountNumber);
-            double processingFee = loggedAccount.getBANK().getProcessingFee();
-            double payAmountWithFee = amountToPay + processingFee;
-            boolean paySuccess = loggedAccount.pay(targetAccount, payAmountWithFee);
-
-            if (paySuccess){
-                System.out.println("\u001B[32mTransfer of ₱" + amountToPay + " processed successfully.\u001B[0m");
-            }
-            else{
-                System.out.println("\u001B[31mInsufficient Balance. Please Retry.\u001B[0m");
-            }
-        }
     }
 
-    private static void creditRecompenseProcess(CreditAccount loggedAccount)
+    private static void creditRecompenseProcess()
     {
 
     }
@@ -75,5 +48,4 @@ public class CreditAccountLauncher extends AccountLauncher
     {
         return null;
     }
-
 }

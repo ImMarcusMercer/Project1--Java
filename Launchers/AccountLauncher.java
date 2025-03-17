@@ -17,7 +17,8 @@ public class AccountLauncher {
         return loggedAccount != null;
     }
 
-    public static void accountLogin() throws IllegalAccountType {
+    public static void accountLogin()
+    {
         Main:
         while(true)
         {
@@ -25,6 +26,7 @@ public class AccountLauncher {
             if(loginBank!=null)
             {
                 BankLauncher.setBankSession(loginBank);
+                assocBank=loginBank;
                 if(BankLauncher.getLoggedBank()!=null)
                 {
                     Main.showMenuHeader("Select Account Type");
@@ -39,7 +41,7 @@ public class AccountLauncher {
                         {
                             tries+=1;
                             String accnum=Main.prompt("Enter Account Number: ",true);
-                            Account found = BankLauncher.getLoggedBank().getBankAccount(BankLauncher.getLoggedBank(), accnum);
+                            Account found = assocBank.getBankAccount(BankLauncher.getLoggedBank(), accnum);
 
 
                             if (found instanceof CreditAccount)
@@ -49,11 +51,13 @@ public class AccountLauncher {
                                 while (tries2 < 3) {  
                                     String pin = Main.prompt("Enter Pin: ", true).trim(); 
                                 
-                                    if (String.valueOf(found.getPin()).trim().equals(pin)) {
-                                        setLogSession(found);
+                                    if (found != null && String.valueOf(found.getPin()).trim().equals(pin)) {
+                                        loggedAccount=found;
+                                        setLogSession();
                                         System.out.println("Login Successful!");
                                         System.out.println("Session started for account: " + found.getAccountNumber());
-                                        CreditAccountLauncher.credAccountInit((CreditAccount) found);
+                                
+                                        CreditAccountLauncher.credAccountInit();  
                                         destroyLogSession();  
                                         return;  
                                     }
@@ -84,33 +88,34 @@ public class AccountLauncher {
                         {
                             tries+=1;
                             String accnum=Main.prompt("Enter Account Number: ",true);
-                            Account found = BankLauncher.getLoggedBank().getBankAccount(BankLauncher.getLoggedBank(), accnum);
+                            Account found = assocBank.getBankAccount(BankLauncher.getLoggedBank(), accnum);
 
 
                             if (found instanceof SavingsAccount) {
                                 int tries2 = 0;
-                            
+
                                 while (tries2 < 3) {
                                     String pin = Main.prompt("Enter PIN: ", true).trim();
-                            
-                                    if (found.getPin().trim().equalsIgnoreCase(pin.trim())) {  
-                                        setLogSession(found);
+
+                                    if (found.getPin().trim().equalsIgnoreCase(pin.trim())) {
+                                        loggedAccount=found;
+                                        setLogSession();
                                         System.out.println("\n Login Successful!");
                                         System.out.println("Session started for account: " + found.getAccountNumber());
-                            
-                                       
+
+
                                         SavingsAccountLauncher.savingsAccountInit((SavingsAccount) found);
-                            
-                                        return; 
+
+                                        return;
                                     }
-                            
-                                    tries2++;  
+
+                                    tries2++;
                                     System.out.println("\n Invalid PIN! Try again. Attempts left: " + (3 - tries2));
                                 }
-                            
+
                                 System.out.println("\n Too many unsuccessful attempts! Account locked.");
                             }
-                            
+
                             if(tries==3)
                             {
                                 Main.print("Too many unsuccessful attempts!");
@@ -139,9 +144,9 @@ public class AccountLauncher {
     //Done
     private static Bank selectBank()
     {
-        Main.showMenuHeader("Bank Selection");
+//        Main.showMenuHeader("Bank Selection");
         BankLauncher.showBanksMenu();
-        System.out.print("Enter Bank ID: ");
+        System.out.print("\nEnter Bank ID: ");
         int bankId=input.nextInt();
         input.nextLine();
         for(Bank b :BankLauncher.getBankList())
@@ -155,17 +160,17 @@ public class AccountLauncher {
     }
 
     //Done
-    private static void setLogSession(Account account)
+    private static void setLogSession()
     {
-        if(account!=null)
-        {
-            loggedAccount = account;
+//        if(account!=null)
+//        {
+//            loggedAccount = account;
             System.out.println("Session started for account: " + loggedAccount.getAccountNumber());
-        }
-        else
-        {
-            Main.print("Invalid Account!");
-        }
+//        }
+//        else
+//        {
+//            Main.print("Invalid Account!");
+//        }
     }
 
     //Done
