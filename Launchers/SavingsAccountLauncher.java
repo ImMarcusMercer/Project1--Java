@@ -1,7 +1,7 @@
 package Launchers;
 
 import Accounts.*;
-import Bank.*;
+
 import java.util.*;
 import Main.*;
 
@@ -9,10 +9,9 @@ public class SavingsAccountLauncher extends AccountLauncher {
 
     private static final Scanner input = new Scanner(System.in);
 
-    public static void savingsAccountInit()
+    public static void savingsAccountInit(SavingsAccount found)
     {
-        Account current=AccountLauncher.getLoggedAccount();
-        if(current.getClass().isInstance(SavingsAccount.class)) {
+        if(found.getClass().isInstance(SavingsAccount.class)) {
             //"Show Balance", "Deposit", "Withdraw", "Fund Transfer",
             //            "Show Transactions", "Logout"
             while (true) {
@@ -40,7 +39,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
                 //Show Transactions
                 else if (Main.getOption() == 5)
                 {
-                    current.getTransactionsInfo();
+                    found.getTransactionsInfo();
                 }
                 //logout
                 else if (Main.getOption() == 6) {

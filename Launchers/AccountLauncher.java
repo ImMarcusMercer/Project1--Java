@@ -79,7 +79,7 @@ public class AccountLauncher {
                     else if(Main.getOption()==2)
                     {
                         int tries=0;
-                        Main.showMenuHeader("Saving Account Login");
+                        Main.showMenuHeader("Savings Account Login");
                         while(true)
                         {
                             tries+=1;
@@ -87,7 +87,7 @@ public class AccountLauncher {
                             Account found = BankLauncher.getLoggedBank().getBankAccount(BankLauncher.getLoggedBank(), accnum);
 
 
-                            if (found instanceof CreditAccount)
+                            if (found instanceof SavingsAccount)
 
                             {   int tries2 = 0;
 
@@ -98,7 +98,6 @@ public class AccountLauncher {
                                         setLogSession(found);
                                         System.out.println("Login Successful!");
                                         System.out.println("Session started for account: " + found.getAccountNumber());
-//                                        CreditAccountLauncher.credAccountInit((CreditAccount) found);
                                         SavingsAccountLauncher.savingsAccountInit((SavingsAccount) found);
                                         destroyLogSession();
                                         return;
@@ -135,6 +134,7 @@ public class AccountLauncher {
             }
         }
     }
+
     //Done
     private static Bank selectBank()
     {
