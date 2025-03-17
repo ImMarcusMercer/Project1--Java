@@ -78,7 +78,48 @@ public class AccountLauncher {
                     //Savings Account
                     else if(Main.getOption()==2)
                     {
+                        int tries=0;
+                        Main.showMenuHeader("Saving Account Login");
+                        while(true)
+                        {
+                            tries+=1;
+                            String accnum=Main.prompt("Enter Account Number: ",true);
+                            Account found = BankLauncher.getLoggedBank().getBankAccount(BankLauncher.getLoggedBank(), accnum);
 
+
+                            if (found instanceof CreditAccount)
+
+                            {   int tries2 = 0;
+
+                                while (tries2 < 3) {
+                                    String pin = Main.prompt("Enter Pin: ", true).trim();
+
+                                    if (String.valueOf(found.getPin()).trim().equals(pin)) {
+                                        setLogSession(found);
+                                        System.out.println("Login Successful!");
+                                        System.out.println("Session started for account: " + found.getAccountNumber());
+//                                        CreditAccountLauncher.credAccountInit((CreditAccount) found);
+                                        SavingsAccountLauncher.savingsAccountInit((SavingsAccount) found);
+                                        destroyLogSession();
+                                        return;
+                                    }
+
+                                    System.out.println("Invalid PIN! Try again.");
+                                    tries2++;
+                                }
+
+                                System.out.println("Too many unsuccessful attempts! Account locked.");
+
+                            }
+                            if(tries==3)
+                            {
+                                Main.print("Too many unsuccessful attempts!");
+                                break Main;
+                            }
+                            else {
+                                Main.print("Invalid Account!");
+                            }
+                        }
                     }
                     else {
                         Main.print("Invalid Input!");
@@ -94,7 +135,6 @@ public class AccountLauncher {
             }
         }
     }
-
     //Done
     private static Bank selectBank()
     {
