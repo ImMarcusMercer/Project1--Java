@@ -17,8 +17,7 @@ public class AccountLauncher {
         return loggedAccount != null;
     }
 
-    public static void accountLogin()
-    {
+    public static void accountLogin() throws IllegalAccountType {
         Main:
         while(true)
         {
@@ -50,12 +49,11 @@ public class AccountLauncher {
                                 while (tries2 < 3) {  
                                     String pin = Main.prompt("Enter Pin: ", true).trim(); 
                                 
-                                    if (found != null && String.valueOf(found.getPin()).trim().equals(pin)) {  
+                                    if (String.valueOf(found.getPin()).trim().equals(pin)) {
                                         setLogSession(found);
                                         System.out.println("Login Successful!");
                                         System.out.println("Session started for account: " + found.getAccountNumber());
-                                
-                                        CreditAccountLauncher.credAccountInit();  
+                                        CreditAccountLauncher.credAccountInit((CreditAccount) found);
                                         destroyLogSession();  
                                         return;  
                                     }

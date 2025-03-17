@@ -7,12 +7,9 @@ import Main.*;
 
 public class CreditAccountLauncher extends AccountLauncher
 {
-    public static void credAccountInit()
-    {
-        Account current= AccountLauncher.getLoggedAccount();
+    public static void credAccountInit(CreditAccount loggedAccount) throws IllegalAccountType {
         Class<CreditAccount> creditAccountClass = CreditAccount.class;
-        if (creditAccountClass.isInstance(current))
-
+        if (loggedAccount != null)
         {
             Main.showMenuHeader("Credit Account Menu");
             Main.showMenu(41);
@@ -22,15 +19,15 @@ public class CreditAccountLauncher extends AccountLauncher
             {
                 case 1->
                 {
-                    current.
+
                 }
                 case 2->
                 {
-                    creditPaymentProcess();
+                    creditPaymentProcess(loggedAccount);
                 }
                 case 3->
                 {
-                    current.getTransactionsInfo();
+                    loggedAccount.getTransactionsInfo();
                 }
             }
         }
@@ -41,34 +38,36 @@ public class CreditAccountLauncher extends AccountLauncher
 
     }
 
-    private static void creditPaymentProcess(CreditAccount loggedCreditAccount) throws IllegalAccountType {
-        // Field for entering the target account number
-        Field<String, String> targetaccountnumberField = new Field<>("targetAccount",
-                String.class, " ", new Field.StringFieldValidator());
-        targetaccountnumberField.setFieldValue("Enter target account number: ");
-        String accountNumber = targetaccountnumberField.getFieldValue();
+    private static void creditPaymentProcess(CreditAccount loggedAccount) throws IllegalAccountType {
+        if(loggedAccount.getClass().isInstance(CreditAccount.class))
+        {
+            Field<String, String> targetaccountnumberField = new Field<String,String>("targetAccount",
+                    String.class, " ", new Field.StringFieldValidator());
+            targetaccountnumberField.setFieldValue("Enter target account number: ");
+            String accountNumber = targetaccountnumberField.getFieldValue();
 
-        // Field for entering the amount to pay
-        Field<Double, Double> amountField = new Field<>("amount",
-                Double.class, 0.0, new Field.DoubleFieldValidator());
-        amountField.setFieldValue("Enter target account number: "); // Mistake in prompt text, should be "Enter amount to pay:"
-        double amountToPay = amountField.getFieldValue();
+            // Field for entering the amount to pay
+            Field<Double, Double> amountField = new Field<Double, Double>("amount",
+                    Double.class, 0.0, new Field.DoubleFieldValidator());
+            amountField.setFieldValue("Enter target account number: "); // Mistake in prompt text, should be "Enter amount to pay:"
+            double amountToPay = amountField.getFieldValue();
 
-        // Find the target account and attempt the payment
-        Account targetAccount = BankLauncher.findAccount(accountNumber);
-        double processingFee = loggedCreditAccount.getBank().getprocessingFee();
-        double payAmountWithFee = amountToPay + processingFee;
-        boolean paySuccess = loggedCreditAccount.pay(targetAccount, payAmountWithFee);
+            // Find the target account and attempt the payment
+            Account targetAccount = BankLauncher.findaccount(accountNumber);
+            double processingFee = loggedAccount.getBANK().getProcessingFee();
+            double payAmountWithFee = amountToPay + processingFee;
+            boolean paySuccess = loggedAccount.pay(targetAccount, payAmountWithFee);
 
-        if (paySuccess){
-            System.out.println("\u001B[32mTransfer of ₱" + amountToPay + " processed successfully.\u001B[0m");
-        }
-        else{
-            System.out.println("\u001B[31mInsufficient Balance. Please Retry.\u001B[0m");
+            if (paySuccess){
+                System.out.println("\u001B[32mTransfer of ₱" + amountToPay + " processed successfully.\u001B[0m");
+            }
+            else{
+                System.out.println("\u001B[31mInsufficient Balance. Please Retry.\u001B[0m");
+            }
         }
     }
 
-    private static void creditRecompenseProcess()
+    private static void creditRecompenseProcess(CreditAccount loggedAccount)
     {
 
     }
@@ -76,4 +75,5 @@ public class CreditAccountLauncher extends AccountLauncher
     {
         return null;
     }
+
 }

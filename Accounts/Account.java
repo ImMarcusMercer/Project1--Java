@@ -21,6 +21,10 @@ public abstract class Account {
         this.OwnerEmail=Email;
         this.Pin=pin;
     }
+    public Bank getBANK()
+    {
+        return BANK;
+    }
     public String getPin()
     {
         return this.Pin;
