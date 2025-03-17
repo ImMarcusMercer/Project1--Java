@@ -164,7 +164,7 @@ public class Bank {
         String pin = accountFields.get(4).getFieldValue();
         double initialDeposit = Double.parseDouble(accountFields.get(5).getFieldValue());
 
-        return new SavingsAccount(this, idNumber, firstName, lastName, email, pin, initialDeposit);
+        return new SavingsAccount(BankLauncher.getLoggedBank(), idNumber, firstName, lastName, email, pin, initialDeposit);
     }
 
     public CreditAccount createNewCreditAccount() {
@@ -177,7 +177,7 @@ public class Bank {
         String email = accountFields.get(3).getFieldValue();
         String pin = accountFields.get(4).getFieldValue();
 
-        return new CreditAccount(this, idNumber, firstName, lastName, email, pin);
+        return new CreditAccount(BankLauncher.getLoggedBank(), idNumber, firstName, lastName, email, pin);
 
     }
 

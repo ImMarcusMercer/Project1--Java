@@ -21,7 +21,7 @@ public class SavingsAccount extends Account
     //Methods
     public String getAccountBalanceStatement()
     {
-        return String.format("Account Balance: %f",this.Balance);
+        return String.format("Account Balance: %.2f",this.Balance);
     }
 
     private boolean hasEnoughBalance(double amount)

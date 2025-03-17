@@ -40,33 +40,33 @@ public class AccountLauncher {
                         {
                             tries+=1;
                             String accnum=Main.prompt("Enter Account Number: ",true);
-                            Account found = BankLauncher.getLoggedBank().getBankAccount(loginBank,accnum);
-                            if(found!=null&&found.getClass().isInstance(CreditAccount.class))
-                            {
-                                int tris2=0;
-                                while(true)
-                                {
-                                    tris2+=1;
-                                    String pin=Main.prompt("Enter Pin: ",true);
-                                    if(found.getPin().equals(pin))
-                                    {
+                            Account found = BankLauncher.getLoggedBank().getBankAccount(BankLauncher.getLoggedBank(), accnum);
+
+
+                            if (found instanceof CreditAccount)
+
+                            {   int tries2 = 0;
+
+                                while (tries2 < 3) {  
+                                    String pin = Main.prompt("Enter Pin: ", true).trim(); 
+                                
+                                    if (found != null && String.valueOf(found.getPin()).trim().equals(pin)) {  
                                         setLogSession(found);
-                                        if(getLoggedAccount()!=null)
-                                        {
-                                            CreditAccountLauncher.credAccountInit();
-                                            destroyLogSession();
-                                        }
+                                        System.out.println("Login Successful!");
+                                        System.out.println("Session started for account: " + found.getAccountNumber());
+                                
+                                        CreditAccountLauncher.credAccountInit();  
+                                        destroyLogSession();  
+                                        return;  
                                     }
-                                    else {
-                                        Main.print("Invalid Pin!");
-                                    }
-                                    if(tris2==3)
-                                    {
-                                        Main.print("Too many unsuccessful attempts!");
-                                        break;
-                                    }
+                                
+                                    System.out.println("Invalid PIN! Try again.");
+                                    tries2++;
                                 }
-                            }
+                                
+                                System.out.println("Too many unsuccessful attempts! Account locked.");
+                                
+                            }                                
                             if(tries==3)
                             {
                                 Main.print("Too many unsuccessful attempts!");
@@ -78,7 +78,10 @@ public class AccountLauncher {
                         }
                     }
                     //Savings Account
-                    else if(Main.getOption()==2){}
+                    else if(Main.getOption()==2)
+                    {
+
+                    }
                     else {
                         Main.print("Invalid Input!");
                         break;

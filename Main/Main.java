@@ -5,7 +5,7 @@ import Bank.*;
 import Launchers.*;
 import java.util.*;
 
-public class Main
+public class   Main
 {
 
     private static final Scanner input = new Scanner(System.in);

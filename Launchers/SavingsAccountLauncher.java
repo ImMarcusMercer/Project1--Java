@@ -11,38 +11,43 @@ public class SavingsAccountLauncher extends AccountLauncher {
 
     public static void savingsAccountInit()
     {
-        //"Show Balance", "Deposit", "Withdraw", "Fund Transfer",
-        //            "Show Transactions", "Logout"
-        while (true)
-        {
-            Main.showMenuHeader("Savings Account Menu");
-            Main.showMenu(51);
-            Main.setOption();
-            //Show balance
-            if(Main.getOption()==1)
-            {
-            }
-            //Deposit
-            else if(Main.getOption()==2)
-            {
-                System.out.print("Enter Deposit amount: ");
-                int amount=input.nextInt();
-                input.nextLine();
-                depositProcess(amount);
-            }
-            //Withdraw
-            else if(Main.getOption()==3){}
-            //Fund Transfer
-            else if(Main.getOption()==4){}
-            //Show Transactions
-            else if(Main.getOption()==5){}
-            //logout
-            else if(Main.getOption()==6)
-            {
-                break;
-            }
-            else {
-                Main.print("Invalid input");
+        Account current=AccountLauncher.getLoggedAccount();
+        if(current.getClass().isInstance(SavingsAccount.class)) {
+            //"Show Balance", "Deposit", "Withdraw", "Fund Transfer",
+            //            "Show Transactions", "Logout"
+            while (true) {
+                Main.showMenuHeader("Savings Account Menu");
+                Main.showMenu(51);
+                Main.setOption();
+                //Show balance
+                if (Main.getOption() == 1) {
+                }
+                //Deposit
+                else if (Main.getOption() == 2) {
+                    System.out.print("Enter Deposit amount: ");
+                    int amount = input.nextInt();
+                    input.nextLine();
+                    depositProcess(amount);
+                }
+                //Withdraw
+                else if (Main.getOption() == 3)
+                {
+                }
+                //Fund Transfer
+                else if (Main.getOption() == 4)
+                {
+                }
+                //Show Transactions
+                else if (Main.getOption() == 5)
+                {
+                    current.getTransactionsInfo();
+                }
+                //logout
+                else if (Main.getOption() == 6) {
+                    break;
+                } else {
+                    Main.print("Invalid input");
+                }
             }
         }
     }
