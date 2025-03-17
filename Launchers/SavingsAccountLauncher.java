@@ -11,7 +11,8 @@ public class SavingsAccountLauncher extends AccountLauncher {
 
     public static void savingsAccountInit(SavingsAccount found)
     {
-        if(found.getClass().isInstance(SavingsAccount.class)) {
+        if (found instanceof SavingsAccount)
+ {
             //"Show Balance", "Deposit", "Withdraw", "Fund Transfer",
             //            "Show Transactions", "Logout"
             while (true) {
@@ -67,16 +68,13 @@ public class SavingsAccountLauncher extends AccountLauncher {
         System.out.println("Transferring ₱" + amount + "To Account: " + recipientacc);
     }
 
-    protected static SavingsAccount getLoggedAccount()
-    {
-        Account check =AccountLauncher.getLoggedAccount();
-        if(check!=null)
-        {
-            if(check.getClass().isInstance(SavingsAccount.class))
-            {
-                return null;
-            }
+    protected static SavingsAccount getLoggedAccount() {
+        Account check = AccountLauncher.getLoggedAccount();
+        if (check instanceof SavingsAccount) {
+            return (SavingsAccount) check;
         }
+        System.out.println("DEBUG: No SavingsAccount found for logged user.");
         return null;
     }
-}
+}    
+        

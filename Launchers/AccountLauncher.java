@@ -87,29 +87,30 @@ public class AccountLauncher {
                             Account found = BankLauncher.getLoggedBank().getBankAccount(BankLauncher.getLoggedBank(), accnum);
 
 
-                            if (found instanceof SavingsAccount)
-
-                            {   int tries2 = 0;
-
+                            if (found instanceof SavingsAccount) {
+                                int tries2 = 0;
+                            
                                 while (tries2 < 3) {
-                                    String pin = Main.prompt("Enter Pin: ", true).trim();
-
-                                    if (String.valueOf(found.getPin()).trim().equals(pin)) {
+                                    String pin = Main.prompt("Enter PIN: ", true).trim();
+                            
+                                    if (found.getPin().trim().equalsIgnoreCase(pin.trim())) {  
                                         setLogSession(found);
-                                        System.out.println("Login Successful!");
+                                        System.out.println("\n Login Successful!");
                                         System.out.println("Session started for account: " + found.getAccountNumber());
+                            
+                                       
                                         SavingsAccountLauncher.savingsAccountInit((SavingsAccount) found);
-                                        destroyLogSession();
-                                        return;
+                            
+                                        return; 
                                     }
-
-                                    System.out.println("Invalid PIN! Try again.");
-                                    tries2++;
+                            
+                                    tries2++;  
+                                    System.out.println("\n Invalid PIN! Try again. Attempts left: " + (3 - tries2));
                                 }
-
-                                System.out.println("Too many unsuccessful attempts! Account locked.");
-
+                            
+                                System.out.println("\n Too many unsuccessful attempts! Account locked.");
                             }
+                            
                             if(tries==3)
                             {
                                 Main.print("Too many unsuccessful attempts!");
