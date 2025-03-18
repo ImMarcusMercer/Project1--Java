@@ -20,8 +20,7 @@ public class Main
     public static Field<Integer, Integer> option = new Field<Integer, Integer>("Option",
             Integer.class, -1, new Field.IntegerFieldValidator());
 
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) throws IllegalAccountType {
         Bank BDO=new Bank(1111,"BDO","0987");
         BankLauncher.addBank(BDO);
         CreditAccount cred=new CreditAccount(BDO,"1234","Johnny","Bravo","bravo@gmail.com","0987");

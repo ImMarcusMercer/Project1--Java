@@ -9,8 +9,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
 
     private static final Scanner input = new Scanner(System.in);
 
-    public static void savingsAccountInit(SavingsAccount found)
-    {
+    public static void savingsAccountInit(SavingsAccount found) throws IllegalAccountType {
         if (found != null)
         {
             //"Show Balance", "Deposit", "Withdraw", "Fund Transfer",
@@ -55,6 +54,10 @@ public class SavingsAccountLauncher extends AccountLauncher {
                             Main.showMenuHeader("Find Target Account");
                             String accNum= Main.prompt("Enter Account Number: ",true);
                             Account search= BankLauncher.findaccount(accNum);
+//                            if(search.getClass().isInstance(CreditAccount.class))
+//                            {
+//                                throw new IllegalAccountType("Target account "+accNum+" is not a Savings Account!");
+//                            }
                             SavingsAccount target= (SavingsAccount)search;
                             if(target != null)
                             {
@@ -67,21 +70,16 @@ public class SavingsAccountLauncher extends AccountLauncher {
                                 {
                                     Main.print("Found Account: "+target.getAccountNumber());
                                     double amount=Double.parseDouble(Main.prompt("Enter amount: ",true));
-                                    boolean foundCheck=found.withdrawal(amount);
-                                    boolean check=target.cashDeposit(amount);
-                                    if(!foundCheck)
-                                    {
-                                        Main.print("Insufficient Balance");
-                                        break transfer;
-                                    }
-                                    else if(check)
-                                    {
+//                                    boolean foundCheck=found.withdrawal(amount);
+//                                    boolean check=target.cashDeposit(amount);
+                                    boolean foundCheck=found.transfer(target,amount);
+//                                    if(!foundCheck)
+//                                    {
+//                                        Main.print("Insufficient Balance");
+//                                    }
+                                    if(foundCheck) {
                                         Main.print("Successfully sent ₱"+amount+" to "+target.getAccountNumber());
-                                        found.addNewTransaction(found.getAccountNumber(), Transaction.Transactions.FundTransfer,"Sent ₱"+amount+" to "+target.getAccountNumber());
-                                        target.addNewTransaction(target.getAccountNumber(), Transaction.Transactions.FundTransfer, "Received ₱"+amount+" from "+found.getAccountNumber());
-                                        break transfer;
                                     }
-                                    Main.print("Fund Transfer Unsuccessful!");
                                     break transfer;
                                 }
                                 Main.print("Target account "+accNum+" is not a Savings Account!");
@@ -202,9 +200,10 @@ public class SavingsAccountLauncher extends AccountLauncher {
         boolean check= Objects.requireNonNull(getLoggedAccount()).cashDeposit(amount);
         if(check){
             Main.print("Deposit Successful!");
+            SavingsAccount account = getLoggedAccount();
+            account.addNewTransaction(account.getAccountNumber(),Transaction.Transactions.Deposit,"Deposit amount of ₱"+amount+" to Account: "+account.getAccountNumber());
         }
-        SavingsAccount account = getLoggedAccount();
-        account.addNewTransaction(account.getAccountNumber(),Transaction.Transactions.Deposit,"Deposit amount of ₱"+amount+" to Account: "+account.getAccountNumber());
+
 
     }
 

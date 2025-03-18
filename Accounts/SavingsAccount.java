@@ -30,15 +30,14 @@ public class SavingsAccount extends Account implements Withdrawal,Deposit,FundTr
 
     private boolean hasEnoughBalance(double amount)
     {
-        return this.Balance >= amount;
+        return Balance >= amount;
     }
 
-    private void insufficientBalance(double amount)
+
+    private void insufficientBalance()
     {
-        if(this.Balance<amount)
-        {
             Main.print("Account has insufficient Balance.");
-        }
+
     }
 
     private void adjustAccountBalance(double amount)
@@ -59,13 +58,23 @@ public class SavingsAccount extends Account implements Withdrawal,Deposit,FundTr
     @Override
     public boolean transfer(Account account, double amount)throws IllegalAccountType
     {
-        if(account!=null&&hasEnoughBalance(amount)&&account.getClass().isInstance(SavingsAccount.class))
+        SavingsAccount account1=(SavingsAccount) account;
+        if(account == null)
         {
+            throw new IllegalAccountType("Cannot transfer funds to non Savings Account!");
+        }
+        if(hasEnoughBalance(amount))
+        {
+            account1.adjustAccountBalance(amount);
             adjustAccountBalance(-amount);
             addNewTransaction(this.getAccountNumber(),Transaction.Transactions.FundTransfer,"Transferred Amount: "+amount+" to Recipient: "+account.getAccountNumber());
+//            found.addNewTransaction(found.getAccountNumber(), Transaction.Transactions.FundTransfer,"Sent ₱"+amount+" to "+target.getAccountNumber());
+            account.addNewTransaction(account.getAccountNumber(), Transaction.Transactions.FundTransfer, "Received ₱"+amount+" from "+account.getAccountNumber());
             return true;
         }
+        insufficientBalance();
         return false;
+
     }
 
     @Override
@@ -76,7 +85,11 @@ public class SavingsAccount extends Account implements Withdrawal,Deposit,FundTr
 
     @Override
     public boolean cashDeposit(double amount) {
-        Balance+=amount;
+        if (amount > BankLauncher.getLoggedBank().getDepositLimit()) {
+            System.out.println("Deposit amount exceeds the bank's limit.");
+            return false;
+        }
+        this.adjustAccountBalance(amount);
         return true;
     }
 

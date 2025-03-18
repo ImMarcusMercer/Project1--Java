@@ -17,8 +17,7 @@ public class AccountLauncher {
         return loggedAccount != null;
     }
 
-    public static void accountLogin()
-    {
+    public static void accountLogin() throws IllegalAccountType {
         Main:
         while(true)
         {

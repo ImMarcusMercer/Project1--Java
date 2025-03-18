@@ -211,6 +211,10 @@ public class Bank {
         return "Bank Name: "+name+"\nRegistered Accounts: "+BANKACCOUNTS.size();
     }
 
+    public double getDepositLimit() {
+        return DEPOSITLIMIT;
+    }
+
     //Sub classes
     public class Bankcomparator implements Comparator<Bank> {
         @Override
