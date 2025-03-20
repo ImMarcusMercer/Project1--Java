@@ -53,7 +53,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
                         {
                             Main.showMenuHeader("Find Target Account");
                             String accNum= Main.prompt("Enter Account Number: ",true);
-                            Account search= BankLauncher.findaccount(accNum);
+                            Account search= BankLauncher.findAccount(accNum);
 //                            if(search.getClass().isInstance(CreditAccount.class))
 //                            {
 //                                throw new IllegalAccountType("Target account "+accNum+" is not a Savings Account!");
