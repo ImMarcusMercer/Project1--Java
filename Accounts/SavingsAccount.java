@@ -56,26 +56,26 @@ public class SavingsAccount extends Account implements Withdrawal,Deposit,FundTr
 
     //Additional Methods
     @Override
-    public boolean transfer(Account account, double amount)throws IllegalAccountType
-    {
-        SavingsAccount account1=(SavingsAccount) account;
-        if(account == null)
-        {
+    public boolean transfer(Account account, double amount) throws IllegalAccountType {
+        if (!(account instanceof Account)) {
             throw new IllegalAccountType("Cannot transfer funds to non Savings Account!");
         }
-        if(hasEnoughBalance(amount))
-        {
+        
+        SavingsAccount account1 = (SavingsAccount) account;
+    
+        if (hasEnoughBalance(amount)) {
             account1.adjustAccountBalance(amount);
             adjustAccountBalance(-amount);
-            addNewTransaction(this.getAccountNumber(),Transaction.Transactions.FundTransfer,"Transferred Amount: "+amount+" to Recipient: "+account.getAccountNumber());
-//            found.addNewTransaction(found.getAccountNumber(), Transaction.Transactions.FundTransfer,"Sent ₱"+amount+" to "+target.getAccountNumber());
-            account.addNewTransaction(account.getAccountNumber(), Transaction.Transactions.FundTransfer, "Received ₱"+amount+" from "+account.getAccountNumber());
+            addNewTransaction(this.getAccountNumber(), Transaction.Transactions.FundTransfer, "Transferred Amount: " + amount + " to Recipient: " + account.getAccountNumber());
+            account.addNewTransaction(account.getAccountNumber(), Transaction.Transactions.FundTransfer, "Received ₱" + amount + " from " + account.getAccountNumber());
             return true;
         }
         insufficientBalance();
         return false;
-
     }
+    
+
+    
 
     @Override
     public boolean transfer(Bank bank, Account account, double amount)

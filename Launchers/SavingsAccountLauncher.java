@@ -78,7 +78,8 @@ public class SavingsAccountLauncher extends AccountLauncher {
 //                                        Main.print("Insufficient Balance");
 //                                    }
                                     if(foundCheck) {
-                                        Main.print("Successfully sent ₱"+amount+" to "+target.getAccountNumber());
+                                        Main.print(String.format("Successfully sent P%.2f to %s", amount, target.getAccountNumber()));
+
                                     }
                                     break transfer;
                                 }
