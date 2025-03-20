@@ -187,7 +187,7 @@ public class AccountLauncher {
     //Use in Account Login
     public static Account checkCredentials(String accountNum, String pin)
     {
-        Account found=BankLauncher.findaccount(accountNum);
+        Account found=BankLauncher.findAccount(accountNum);
         if(found!=null)
         {
             if(found.getPin().equals(pin))

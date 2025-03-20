@@ -36,4 +36,15 @@ public class CreditAccount extends Account{
     {
         return "Credit Account\nAccount Number: "+getAccountNumber()+"\nOwner: "+getOwnerFullName()+"\n"+getLoanStatement()+"\n";
     }
+
+    public double getLoan() {
+        return Loan;
+    }
+
+    public void pay(SavingsAccount saccount1, double v) {
+
+    }
+
+    public void recompense(double v) {
+    }
 }

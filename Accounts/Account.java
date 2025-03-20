@@ -65,4 +65,8 @@ public abstract class Account {
     {
         return String.format("Account Owner: %s\n",this.getOwnerFullName());
     }
+
+    public String getOwnerEmail() {
+        return OwnerEmail;
+    }
 }

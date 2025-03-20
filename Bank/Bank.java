@@ -1,7 +1,6 @@
 package Bank;
 
 import Accounts.*;
-import Launchers.BankLauncher;
 import Main.*;
 import java.util.*;
 
@@ -213,6 +212,14 @@ public class Bank {
 
     public double getDepositLimit() {
         return DEPOSITLIMIT;
+    }
+
+    public double getCreditLimit() {
+        return CREDITLIMIT;
+    }
+
+    public double getProcessingFee() {
+        return processingFee;
     }
 
     //Sub classes

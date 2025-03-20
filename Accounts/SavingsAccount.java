@@ -2,9 +2,6 @@ package Accounts;
 
 import Bank.*;
 
-import java.sql.Savepoint;
-import java.util.*;
-import Launchers.*;
 import Main.Main;
 
 public class SavingsAccount extends Account implements Withdrawal,Deposit,FundTransfer
@@ -101,5 +98,13 @@ public class SavingsAccount extends Account implements Withdrawal,Deposit,FundTr
             return true;
         }
         return false;
+    }
+
+    public double getAccountBalance() {
+        return Balance;
+    }
+
+    public Bank getBank() {
+        return BankLauncher.getLoggedBank();
     }
 }
