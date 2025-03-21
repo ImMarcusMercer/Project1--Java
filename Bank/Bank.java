@@ -8,7 +8,7 @@ public class Bank {
     private int ID;
     private String name;
     private String passcode;
-    private double DEPOSITLIMIT=50000.0, WITHDRAWLIMIT=50000.0, CREDITLIMIT=100000.0;
+    private double DEPOSITLIMIT, WITHDRAWLIMIT, CREDITLIMIT;
     private double processingFee=10.0;
     private ArrayList<Account> BANKACCOUNTS=new ArrayList<>();
 
@@ -18,8 +18,11 @@ public class Bank {
         this.ID=ID;
         this.name=Name;
         this.passcode=Passcode;
+        this.DEPOSITLIMIT=50000.0;
+        this.WITHDRAWLIMIT=50000.0;
+        this.CREDITLIMIT=100000.0;
     }
-    public Bank(int ID, String Name, String Passcode,double DL, double WL, double CL, double Fee)
+    public Bank(int ID,String Name, String Passcode,double DL, double WL, double CL, double Fee)
     {
         this.ID=ID;
         this.name=Name;
@@ -207,7 +210,7 @@ public class Bank {
 
     public String toString()
     {
-        return "Bank Name: "+name+"\nRegistered Accounts: "+BANKACCOUNTS.size();
+        return "\nBank Name: "+name+"\n"+getCreditLimit()+"\nRegistered Accounts: "+BANKACCOUNTS.size();
     }
 
     public double getDepositLimit() {
@@ -222,9 +225,10 @@ public class Bank {
         return processingFee;
     }
 
+
     //Sub classes
     public class Bankcomparator implements Comparator<Bank> {
-        @Override
+//        @Override
         public int compare(Bank b1, Bank b2) {
             return b1.getName().compareTo(b2.getName());
         }

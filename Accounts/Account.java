@@ -37,6 +37,10 @@ public abstract class Account {
         return OwnerLName+", "+ OwnerFName;
     }
 
+    public Bank getBANK(){
+        return BANK;
+    }
+
     public void addNewTransaction(String accountNumber, Transaction.Transactions type, String description)
     {
         Transaction newTransaction= new Transaction(accountNumber,type,description);

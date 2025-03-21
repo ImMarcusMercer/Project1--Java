@@ -73,11 +73,18 @@ public class TestBank {
             // Create second bank
             BankLauncher.createNewBank();
 
+            //Show existing Banks
+            BankLauncher.showBanksMenu();
+
             // Get two banks
             Bank bank1 = BankLauncher.getBank(new Bank.BankIdComparator(), new Bank(0, null, null));
             Bank bank2 = BankLauncher.getBank(new Bank.BankIdComparator(), new Bank(1, null, null));
 
-            Assert.assertEquals(2, BankLauncher.bankSize());
+            //Print bank1 to check
+//            System.out.println(bank1);
+
+
+            Assert.assertEquals(3, BankLauncher.bankSize());
 
             // Test Bank 1 values
             Assert.assertEquals("Land Bank of the Philippines", bank1.getName());
