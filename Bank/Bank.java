@@ -8,9 +8,10 @@ public class Bank {
     private int ID;
     private String name;
     private String passcode;
-    private double DEPOSITLIMIT=50000.0, WITHDRAWLIMIT=50000.0, CREDITLIMIT=100000.0;
+    private double DEPOSITLIMIT, WITHDRAWLIMIT, CREDITLIMIT;
     private double processingFee=10.0;
     private ArrayList<Account> BANKACCOUNTS=new ArrayList<>();
+    private static final Scanner input = new Scanner(System.in);
 
     //Constructors
     public Bank(int ID, String Name, String Passcode)
@@ -18,8 +19,11 @@ public class Bank {
         this.ID=ID;
         this.name=Name;
         this.passcode=Passcode;
+        this.DEPOSITLIMIT=50000.0;
+        this.WITHDRAWLIMIT=50000.0;
+        this.CREDITLIMIT=100000.0;
     }
-    public Bank(int ID, String Name, String Passcode,double DL, double WL, double CL, double Fee)
+    public Bank(int ID,String Name, String Passcode,double DL, double WL, double CL, double Fee)
     {
         this.ID=ID;
         this.name=Name;
@@ -28,6 +32,7 @@ public class Bank {
         this.WITHDRAWLIMIT=WL;
         this.CREDITLIMIT=CL;
         this.processingFee=Fee;
+        BankLauncher.incrementID();
     }
 
     //Bank Methods
@@ -129,6 +134,7 @@ public class Bank {
         Field<String, ?> idNumberField = new Field<String,String>("ID Number", String.class, "", new Field.StringFieldValidator());
         idNumberField.setFieldValue("Enter ID number: ");
         accountFields.add(idNumberField);
+        Main.print(String.valueOf(idNumberField));
 
         Field<String, String> firstNameField = new Field<String,String>("First Name", String.class, "", new Field.StringFieldValidator());
         firstNameField.setFieldValue("Enter first name: ");
@@ -154,16 +160,39 @@ public class Bank {
     }
 
     public SavingsAccount createNewSavingsAccount() {
-        List<Field<String, ?>> accountFields = createNewAccount();
+//        List<Field<String, ?>> accountFields = createNewAccount();
 
-        String idNumber = accountFields.get(0).getFieldValue();
-        String firstName = accountFields.get(1).getFieldValue();
-        String lastName = accountFields.get(2).getFieldValue();
-        String email = accountFields.get(3).getFieldValue();
-        String pin = accountFields.get(4).getFieldValue();
-        double initialDeposit = Double.parseDouble(accountFields.get(5).getFieldValue());
+//        String idNumber = accountFields.get(0).getFieldValue();
+//        Main.print(idNumber);
+//        String firstName = accountFields.get(1).getFieldValue();
+//        String lastName = accountFields.get(2).getFieldValue();
+//        String email = accountFields.get(3).getFieldValue();
+//        String pin = accountFields.get(4).getFieldValue();
+//        double initialDeposit = Double.parseDouble(accountFields.get(5).getFieldValue());
+        if (input == null) {
+            throw new IllegalStateException("Scanner is not initialized.");
+        }
 
-        return new SavingsAccount(this, idNumber, firstName, lastName, email, pin, initialDeposit);
+        System.out.print("Enter Account ID: ");
+        String idNumber = input.hasNextLine() ? input.nextLine().trim() : "None";
+
+        System.out.print("Enter Account Pin: ");
+        String pin = input.hasNextLine() ? input.nextLine().trim() : "1234";
+
+        System.out.print("Enter First Name: ");
+        String firstName = input.hasNextLine() ? input.nextLine().trim() : "1234";
+
+        System.out.print("Enter Last Name: ");
+        String lastName = input.hasNextLine() ? input.nextLine().trim() : "1234";
+
+        System.out.print("Enter Email: ");
+        String email = input.hasNextLine() ? input.nextLine().trim() : "1234";
+
+        System.out.print("Enter Initial Deposit (Enter - skip): ");
+        double initialDeposit= input.hasNextDouble() ? input.nextDouble() : 10.0;
+        if (input.hasNextLine()) input.nextLine();
+
+        return new SavingsAccount(this, idNumber, pin,firstName, lastName, email,  initialDeposit);
     }
 
     public CreditAccount createNewCreditAccount() {
@@ -171,6 +200,7 @@ public class Bank {
 
 
         String idNumber = accountFields.get(0).getFieldValue();
+        Main.print(idNumber);
         String firstName = accountFields.get(1).getFieldValue();
         String lastName = accountFields.get(2).getFieldValue();
         String email = accountFields.get(3).getFieldValue();
@@ -207,7 +237,7 @@ public class Bank {
 
     public String toString()
     {
-        return "Bank Name: "+name+"\nRegistered Accounts: "+BANKACCOUNTS.size();
+        return "\nBank Name: "+name+"\n"+getCreditLimit()+"\nRegistered Accounts: "+BANKACCOUNTS.size();
     }
 
     public double getDepositLimit() {
@@ -225,7 +255,7 @@ public class Bank {
 
     //Sub classes
     public class Bankcomparator implements Comparator<Bank> {
-        @Override
+//        @Override
         public int compare(Bank b1, Bank b2) {
             return b1.getName().compareTo(b2.getName());
         }
