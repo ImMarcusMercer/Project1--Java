@@ -13,7 +13,7 @@ public class SavingsAccount extends Account implements Withdrawal,Deposit,FundTr
         return "Remaining Balance: ₱"+Balance;
     }
 
-    public SavingsAccount(Bank bank, String accountNumber,String FirstName,String LastName, String Email,String pin, double initialDeposit)
+    public SavingsAccount(Bank bank, String accountNumber,String pin,String FirstName,String LastName, String Email, double initialDeposit)
     {
         super(bank,accountNumber,FirstName,LastName,Email,pin);
         this.Balance=initialDeposit;

@@ -12,7 +12,7 @@ public abstract class Account {
     private ArrayList<Transaction> TRANSACTIONS;
 
     //Methods
-    public Account(Bank bank, String accountNumber,String FirstName,String LastName, String Email,String pin)
+    public Account(Bank bank, String accountNumber,String pin,String FirstName,String LastName, String Email)
     {
         this.BANK=bank;
         this.AccountNumber=accountNumber;
