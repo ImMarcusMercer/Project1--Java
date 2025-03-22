@@ -63,7 +63,9 @@ public class SavingsAccount extends Account implements Withdrawal,Deposit,FundTr
         if (hasEnoughBalance(amount)) {
             account1.adjustAccountBalance(amount);
             adjustAccountBalance(-amount);
-            addNewTransaction(this.getAccountNumber(), Transaction.Transactions.FundTransfer, "Transferred Amount: " + amount + " to Recipient: " + account.getAccountNumber());
+            double fee=getBank().getProcessingFee();
+            adjustAccountBalance(fee);
+            addNewTransaction(this.getAccountNumber(), Transaction.Transactions.FundTransfer, "Transferred Amount: " + amount + " to Recipient: " + account.getAccountNumber()+"Transaction fee:"+fee);
             account.addNewTransaction(account.getAccountNumber(), Transaction.Transactions.FundTransfer, "Received ₱" + amount + " from " + account.getAccountNumber());
             return true;
         }
@@ -86,6 +88,8 @@ public class SavingsAccount extends Account implements Withdrawal,Deposit,FundTr
             System.out.println("Deposit amount exceeds the bank's limit.");
             return false;
         }
+        double fee=getBank().getProcessingFee();
+        adjustAccountBalance(fee);
         this.adjustAccountBalance(amount);
         return true;
     }

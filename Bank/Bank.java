@@ -65,49 +65,6 @@ public class Bank {
             if (!found) {
                 System.out.println("There are currently no accounts stored.");
             }
-//        if(AccountType.isInstance(CreditAccount.class))
-//        {
-//            boolean found = false;
-//            Main.showMenuHeader("Credit Accounts");
-//            for (Account account : BANKACCOUNTS) {
-//                if (AccountType.isInstance(account)) {
-//                    System.out.println(account);
-//                    found = true;
-//                }
-//            }
-//            if (!found) {
-//                System.out.println("There are currently no accounts stored.");
-//            }
-//        }
-//        else if(AccountType.isInstance(SavingsAccount.class))
-//        {
-//            boolean found = false;
-//            Main.showMenuHeader("Savings Accounts");
-//            for (Account account : BANKACCOUNTS) {
-//                if (AccountType.isInstance(account)) {
-//                    System.out.println(account);
-//                    found = true;
-//                }
-//            }
-//            if (!found) {
-//                System.out.println("There are currently no accounts stored.");
-//            }
-//        }
-//        else if (AccountType.isInstance(Account.class))
-//        {
-//            boolean found = false;
-//            Main.showMenuHeader("All Accounts in "+name);
-//            for (Account account : BANKACCOUNTS) {
-//                if (AccountType.isInstance(account)) {
-//                    System.out.println(account);
-//                    found = true;
-//                }
-//            }
-//            if (!found) {
-//                System.out.println("There are currently no accounts stored.");
-//            }
-//        }
-
 
     }
 
@@ -163,18 +120,7 @@ public class Bank {
         String firstName = accountFields.get(1).getFieldValue();
         String lastName = accountFields.get(2).getFieldValue();
         String email = accountFields.get(3).getFieldValue();
-//        double initialDeposit = Double.parseDouble(accountFields.get(5).getFieldValue());
-//        System.out.print("Enter Account Pin: ");
-//        String pin = input.nextLine();
-//
-//        System.out.print("Enter First Name: ");
-//        String firstName = input.nextLine();
-//
-//        System.out.print("Enter Last Name: ");
-//        String lastName = input.nextLine();
-//
-//        System.out.print("Enter Email: ");
-//        String email = input.nextLine();
+
         double initialDeposit;
         System.out.print("Enter Initial Deposit (Press Enter to skip): ");
         String depositInput = input.nextLine().trim(); // Read input and trim spaces

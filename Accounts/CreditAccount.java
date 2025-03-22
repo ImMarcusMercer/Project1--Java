@@ -48,7 +48,7 @@ public class CreditAccount extends Account implements Payment,Recompense
     @Override
     public boolean pay(Account target_account, double amount_to_pay) throws IllegalAccountType
     {
-        if (!(target_account instanceof CreditAccount || target_account instanceof SavingsAccount))
+        if (!(target_account instanceof CreditAccount))
         {
             throw new IllegalAccountType("Credit accounts cannot pay to other credit accounts.");
         }

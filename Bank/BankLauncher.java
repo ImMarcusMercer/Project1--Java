@@ -232,73 +232,6 @@ public class BankLauncher {
         }
 
         addBank(new Bank(IDCount, name, passcode, depositLimit, withdrawLimit, creditLimit, processingFee));
-
-
-
-
-
-
-
-//        Main.showMenuHeader("Create New Bank");
-//        try {
-//            Field<String, String> bankNameField = new Field<String, String>("Bank Name", String.class, " ",
-//                    new Field.StringFieldValidator());
-//            bankNameField.setFieldValue("Enter bank name: ");
-//            String bankname = bankNameField.getFieldValue();
-//
-//            Field<String, String> bankpasscodeField = new Field<String, String>("Bank Passcode", String.class, " ",
-//                    new Field.StringFieldValidator());
-//            bankpasscodeField.setFieldValue("Enter bank passcode: ");
-//            String passcode = bankpasscodeField.getFieldValue();
-//
-//            //Configure Bank Attributes?
-//            String confChoice=Main.prompt("Would you like to configure Bank details?(y or n)",true);
-//
-//            if(confChoice.equals("y"))
-//            {
-//                Field<Double, Double> depositlimitField = new Field<Double, Double>("Deposit Limit", Double.class, 50000.00,
-//                        new Field.DoubleFieldValidator());
-//                depositlimitField.setFieldValue("Enter deposit limit: ");
-//                double depositlimit = depositlimitField.getFieldValue();
-//
-//                Field<Double, Double> withdrawlimitField = new Field<Double, Double>("Withdraw Limit", Double.class, 50000.00,
-//                        new Field.DoubleFieldValidator());
-//                withdrawlimitField.setFieldValue("Enter withdraw limit: ");
-//                double withdrawlimit = withdrawlimitField.getFieldValue();
-//
-//                Field<Double, Double> creditlimitField = new Field<Double,Double>("Credit Limit", Double.class, 10.00,
-//                        new Field.DoubleFieldValidator());
-//                creditlimitField.setFieldValue("Enter credit limit: ");
-//                double creditlimit = creditlimitField.getFieldValue();
-//                double fee;
-//                while(true)
-//                {
-//                    Field<Double, Double> feeField = new Field<Double,Double>("Processing Fee", Double.class, 0.0, new Field.DoubleFieldValidator());
-//                    creditlimitField.setFieldValue("Enter Processing Fee: ");
-//                    fee = feeField.getFieldValue();
-//                    if(fee>0&&fee<10)
-//                    {
-//                        break;
-//                    }
-//                    Main.print("Fee must be P1 - P10 Only!");
-//                }
-//
-//                Bank newBank = new Bank(IDCount, bankname, passcode, depositlimit, withdrawlimit, creditlimit, fee);
-//                addBank(newBank);
-//            }
-//            else if(confChoice.equals("n"))
-//            {
-//                double depositlimit=50000.0;
-//                double withdrawlimit=50000.0;
-//                double creditlimit=100000.0;
-//                double fee= 10.0;
-//                Main.print("Details have been set to default!");
-//                Bank newBank = new Bank(IDCount, bankname, passcode, depositlimit, withdrawlimit, creditlimit, fee);
-//                addBank(newBank);
-//            }
-//        } catch (Exception e) {
-//            System.out.println("Error creating new bank.");
-//        }
     }
 
     public static void showBanksMenu()
@@ -315,8 +248,8 @@ public class BankLauncher {
             Main.print("No Banks!");
         }
     }
-    //return to private
-    public static void addBank(Bank bank)
+
+    private static void addBank(Bank bank)
     {
         if(bank!=null)
         {

@@ -21,22 +21,6 @@ public class Main
             Integer.class, -1, new Field.IntegerFieldValidator());
 
     public static void main(String[] args) throws IllegalAccountType {
-        Bank BDO=new Bank(1001,"BDO","0987");
-        BankLauncher.addBank(BDO);
-        CreditAccount cred=new CreditAccount(BDO,"CA-1234","1234","Bravo","bravo@gmail.com","Johnny");
-        BDO.addNewAccount(cred);
-        SavingsAccount savingsAccount=new SavingsAccount(BDO, "SA-1112","1234","Sinns","Jonny","sinns@gmail.com",10000);
-        BDO.addNewAccount(savingsAccount);
-        BDO.addNewAccount(new SavingsAccount(BDO, "SA-1113","1234","Hitler", "Nazi","hitler@gmail.com",0));
-
-        Bank Landbank=new Bank(1002,"Land Bank","0987");
-        BankLauncher.addBank(Landbank);
-        CreditAccount credL=new CreditAccount(Landbank,"CA-1","1234","Bravo","Johnny","bravo@gmail.com");
-        Landbank.addNewAccount(credL);
-        SavingsAccount savingsAccountL=new SavingsAccount(Landbank, "SA-1","1234","Sinns","sinns","sinns@gmail.com",10000);
-        Landbank.addNewAccount(savingsAccountL);
-        Landbank.addNewAccount(new SavingsAccount(Landbank, "SA-2","1234","Hitler", "dawd@gmail.com","hitler@gmail.com",0));
-
 
         while (true)
         {

@@ -12,8 +12,6 @@ public class SavingsAccountLauncher extends AccountLauncher {
     public static void savingsAccountInit(SavingsAccount found) throws IllegalAccountType {
         if (found != null)
         {
-            //"Show Balance", "Deposit", "Withdraw", "Fund Transfer",
-            //            "Show Transactions", "Logout"
             while (true) {
                 Main.showMenuHeader("Savings Account Menu");
                 Main.showMenu(51);
@@ -54,10 +52,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
                             Main.showMenuHeader("Find Target Account");
                             String accNum= Main.prompt("Enter Account Number: ",true);
                             Account search= BankLauncher.findAccount(accNum);
-//                            if(search.getClass().isInstance(CreditAccount.class))
-//                            {
-//                                throw new IllegalAccountType("Target account "+accNum+" is not a Savings Account!");
-//                            }
+
                             SavingsAccount target= (SavingsAccount)search;
                             if(target != null)
                             {
@@ -70,13 +65,8 @@ public class SavingsAccountLauncher extends AccountLauncher {
                                 {
                                     Main.print("Found Account: "+target.getAccountNumber());
                                     double amount=Double.parseDouble(Main.prompt("Enter amount: ",true));
-//                                    boolean foundCheck=found.withdrawal(amount);
-//                                    boolean check=target.cashDeposit(amount);
                                     boolean foundCheck=found.transfer(target,amount);
-//                                    if(!foundCheck)
-//                                    {
-//                                        Main.print("Insufficient Balance");
-//                                    }
+
                                     if(foundCheck) {
                                         Main.print(String.format("Successfully sent P%.2f to %s", amount, target.getAccountNumber()));
 

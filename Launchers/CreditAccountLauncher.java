@@ -43,7 +43,6 @@ public class CreditAccountLauncher extends AccountLauncher
 
     }
 
-    //Check if correct implementation
     private static void creditPaymentProcess(CreditAccount creditAccount) throws IllegalAccountType {
 
         int tryies=0;
@@ -51,23 +50,18 @@ public class CreditAccountLauncher extends AccountLauncher
         {
             tryies+=1;
             if(tryies==2){break;}
-            Field<String, String> targetaccountnumberField = new Field<String,String>("targetAccount",
-                    String.class, " ", new Field.StringFieldValidator());
-            targetaccountnumberField.setFieldValue("Enter target account number: ");
-            String accountNumber = targetaccountnumberField.getFieldValue();
+
 
             // Field for entering the amount to pay
-            Field<Double, Double> amountField = new Field<Double,Double>("amount",
-                    Double.class, 0.0, new Field.DoubleFieldValidator());
-            amountField.setFieldValue("Enter target account number: "); // Mistake in prompt text, should be "Enter amount to pay:"
+            Field<Double, Double> amountField = new Field<Double,Double>("amount", Double.class, 0.0, new Field.DoubleFieldValidator());
+            amountField.setFieldValue("Enter Amount: ");
             double amountToPay = amountField.getFieldValue();
 
-            // Find the target account and attempt the payment
-            Account targetAccount = BankLauncher.findAccount(accountNumber);
             CreditAccount loggedCreditAccount=getLoggedAccount();
+            assert loggedCreditAccount != null;
             double processingFee = loggedCreditAccount.getBANK().getProcessingFee();
             double payAmountWithFee = amountToPay + processingFee;
-            boolean paySuccess = loggedCreditAccount.pay(targetAccount, payAmountWithFee);
+            boolean paySuccess = loggedCreditAccount.pay(creditAccount, payAmountWithFee);
 
             if (paySuccess){
                 System.out.println("Transfer of ₱" + amountToPay + " processed successfully.");
