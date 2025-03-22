@@ -21,27 +21,25 @@ public class Main
             Integer.class, -1, new Field.IntegerFieldValidator());
 
     public static void main(String[] args) throws IllegalAccountType {
-//        Bank BDO=new Bank(1111,"BDO","0987");
-//        BankLauncher.addBank(BDO);
-//        CreditAccount cred=new CreditAccount(BDO,"1234","Johnny","Bravo","bravo@gmail.com","0987");
-//        BDO.addNewAccount(cred);
-//        SavingsAccount savingsAccount=new SavingsAccount(BDO, "1112","Johnny","Sinns","sinns@gmail.com","12324",10000);
-//        BDO.addNewAccount(savingsAccount);
-//        BDO.addNewAccount(new SavingsAccount(BDO, "1113","Adolf","Hitler", "hitler@gmail.com","1234",0));
-//
-        Bank Landbank=new Bank(1112,"Land Bank","0987");
+        Bank BDO=new Bank(1001,"BDO","0987");
+        BankLauncher.addBank(BDO);
+        CreditAccount cred=new CreditAccount(BDO,"CA-1234","1234","Bravo","bravo@gmail.com","Johnny");
+        BDO.addNewAccount(cred);
+        SavingsAccount savingsAccount=new SavingsAccount(BDO, "SA-1112","1234","Sinns","Jonny","sinns@gmail.com",10000);
+        BDO.addNewAccount(savingsAccount);
+        BDO.addNewAccount(new SavingsAccount(BDO, "SA-1113","1234","Hitler", "Nazi","hitler@gmail.com",0));
+
+        Bank Landbank=new Bank(1002,"Land Bank","0987");
         BankLauncher.addBank(Landbank);
-        CreditAccount credL=new CreditAccount(Landbank,"2222","1234","Bravo","bravo@gmail.com","0987");
+        CreditAccount credL=new CreditAccount(Landbank,"CA-1","1234","Bravo","Johnny","bravo@gmail.com");
         Landbank.addNewAccount(credL);
-        SavingsAccount savingsAccountL=new SavingsAccount(Landbank, "22223","Murcialgo","Sinns","sinns","sinns@gmail.com",10000);
+        SavingsAccount savingsAccountL=new SavingsAccount(Landbank, "SA-1","1234","Sinns","sinns","sinns@gmail.com",10000);
         Landbank.addNewAccount(savingsAccountL);
-        Landbank.addNewAccount(new SavingsAccount(Landbank, "22224","1234","Hitler", "dawd@gmail.com","hitler@gmail.com",0));
+        Landbank.addNewAccount(new SavingsAccount(Landbank, "SA-2","1234","Hitler", "dawd@gmail.com","hitler@gmail.com",0));
 
 
         while (true)
         {
-//            BankLauncher.createNewBank();
-//            BankLauncher.createNewBank();
             showMenuHeader("Main Menu");
             showMenu(1);
             setOption();

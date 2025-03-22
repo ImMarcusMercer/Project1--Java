@@ -7,10 +7,10 @@ import Launchers.*;
 public class CreditAccount extends Account implements Payment,Recompense
 {
     private double Loan;
-    private double CreditLimit=100000.0;
+    private double CreditLimit;
     public CreditAccount(Bank bank, String accountNumber,String pin,String FirstName,String LastName, String Email)
     {
-        super(bank, accountNumber, FirstName, LastName, Email, pin);
+        super(bank, accountNumber, pin, FirstName, LastName, Email);
     }
 
     //Methods
@@ -26,11 +26,14 @@ public class CreditAccount extends Account implements Payment,Recompense
 
     private void adjustLoanAmount(double amountAdjustment)
     {
-        if(Loan+amountAdjustment<0)
+        if(canCredit(amountAdjustment))
         {
-            Loan=0;
+            if(Loan+amountAdjustment<0)
+            {
+                Loan=0;
+            }
+            Loan+=amountAdjustment;
         }
-        Loan+=amountAdjustment;
     }
 
     public String toString()

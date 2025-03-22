@@ -46,7 +46,7 @@ public class SavingsAccountLauncher extends AccountLauncher {
                     while(true)
                     {
                         Main.showMenuHeader("Fund Transfer");
-                        Main.print("[1] Account to Account Fund Transfer\n[2] Bank to Bank Fund Transfer\n[3] Return");
+                        Main.print("[1] Internal Fund Transfer\n[2] External Transfer\n[3] Return");
                         String choice= Main.prompt("Enter Choice: ",true);
                         //Account only
                         if(choice.equals("1"))
@@ -89,86 +89,80 @@ public class SavingsAccountLauncher extends AccountLauncher {
                             Main.print("Account "+accNum+" not found!");
                             break transfer;
                         }
+
                         //Different Bank
                         else if(choice.equals("2"))
                         {
-                            bankLogin:
-                            while(true)
+                            Bank targetBank=null;
+                            BankLauncher.showBanksMenu();
+                            System.out.print("Enter Target Bank ID (0 - Exit): ");
+                            String bankName=input.nextLine();
+                            Bank currentBank= BankLauncher.getLoggedBank();
+                            if(currentBank.getName().equals(bankName))
                             {
-                                Bank targetBank=null;
-                                while(targetBank==null)
+                                Main.print("Target Bank must not be the current Bank!\nSelect another Bank!");
+                                break;
+                            }
+                            if(bankName.equals("0")){break ;}
+                            for(Bank b:BankLauncher.getBankList())
+                            {
+                                if(b.getName().equals(bankName))
                                 {
-                                    BankLauncher.showBanksMenu();
-                                    int bankID=Integer.parseInt(Main.prompt("Enter Target Bank ID(0 - Exit): ", true));
-                                    Bank currentBank= BankLauncher.getLoggedBank();
-                                    if(currentBank.getID()==bankID)
-                                    {
-                                        Main.print("Target Bank must not be the current Bank!\nSelect another Bank!");
-                                        break;
-                                    }
-                                    if(bankID==0){break ;}
-                                    for(Bank b:BankLauncher.getBankList())
-                                    {
-                                        if(b.getID()==bankID)
-                                        {
-                                            targetBank=b;
-                                        }
-                                    }
+                                    targetBank=b;
+                                    break;
                                 }
-                                if(targetBank!=null)
+                            }
+
+                            if(targetBank!=null)
+                            {
+                                SavingsAccount targetAccount=null;
+                                int tru=0;
+                                finding:
+                                while (true)
                                 {
-                                    SavingsAccount targetAccount=null;
-                                    int tru=0;
-                                    finding:
-                                    while (true)
+                                    tru+=1;
+                                    if(tru==4){
+                                        Main.print("Too many unsuccessful attempts");
+                                        break ;
+                                    }
+                                    String targetAccNum= Main.prompt("Enter Target Account Number: ",true);
+                                    for(Account account:targetBank.getBANKACCOUNTS())
                                     {
-                                        tru+=1;
-                                        if(tru==4){
-                                            Main.print("Too many unsuccessful attempts");
-                                            break ;
-                                        }
-                                        String targetAccNum= Main.prompt("Enter Target Account Number: ",true);
-                                        for(Account account:targetBank.getBANKACCOUNTS())
+                                        if(account.getAccountNumber().equals(targetAccNum))
                                         {
-                                            if(account.getAccountNumber().equals(targetAccNum))
-                                            {
-                                                if(account instanceof SavingsAccount) {
-                                                    targetAccount =(SavingsAccount) account;
-                                                    break finding;
-                                                }
+                                            if(account instanceof SavingsAccount) {
+                                                targetAccount =(SavingsAccount) account;
+                                                break finding;
                                             }
                                         }
-                                        Main.print("Account not found!");
                                     }
-                                    if(targetAccount!=null)
-                                    {
-                                        Main.print("Found Account: "+targetAccount.getAccountNumber());
-                                        double amount=Double.parseDouble(Main.prompt("Enter amount: ",true));
-                                        boolean foundCheck=found.withdrawal(amount);
-                                        boolean check=targetAccount.cashDeposit(amount);
-                                        if(!foundCheck)
-                                        {
-                                            Main.print("Insufficient Balance");
-                                            break transfer;
-                                        }
-                                        else if(check)
-                                        {
-                                            Main.print("Successfully sent ₱"+amount+" to "+targetAccount.getAccountNumber());
-                                            found.addNewTransaction(found.getAccountNumber(), Transaction.Transactions.FundTransfer,"Sent ₱"+amount+" to "+targetAccount.getAccountNumber());
-                                            targetAccount.addNewTransaction(targetAccount.getAccountNumber(), Transaction.Transactions.FundTransfer, "Received ₱"+amount+" from "+found.getAccountNumber());
-                                            break transfer;
-                                        }
-                                        Main.print("Fund Transfer Unsuccessful!");
-                                    }
-                                    Main.print("Account not Found!");
+                                    Main.print("Account not found!");
                                 }
-                                //Exit
-                                break ;
-//                                else if(bankID==0)
-//                                {
-//                                    break;
-//                                }
+                                if(targetAccount!=null)
+                                {
+                                    Main.print("Found Account: "+targetAccount.getAccountNumber());
+                                    double amount=Double.parseDouble(Main.prompt("Enter amount: ",true));
+                                    boolean foundCheck=found.withdrawal(amount);
+                                    boolean check=targetAccount.cashDeposit(amount);
+                                    if(!foundCheck)
+                                    {
+                                        Main.print("Insufficient Balance");
+                                        break transfer;
+                                    }
+                                    else if(check)
+                                    {
+                                        Main.print("Successfully sent ₱"+amount+" to "+targetAccount.getAccountNumber());
+                                        found.addNewTransaction(found.getAccountNumber(), Transaction.Transactions.FundTransfer,"Sent ₱"+amount+" to "+targetAccount.getAccountNumber());
+                                        targetAccount.addNewTransaction(targetAccount.getAccountNumber(), Transaction.Transactions.FundTransfer, "Received ₱"+amount+" from "+found.getAccountNumber());
+                                        break transfer;
+                                    }
+                                    Main.print("Fund Transfer Unsuccessful!");
+                                }
+                                Main.print("Account not Found!");
                             }
+                            Main.print("Bank Not Found");
+                            break;
+
                         }
                         else if(choice.equals("3"))
                         {

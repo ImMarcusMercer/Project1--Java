@@ -12,6 +12,7 @@ public class Bank {
     private double processingFee=10.0;
     private ArrayList<Account> BANKACCOUNTS=new ArrayList<>();
     private static final Scanner input = new Scanner(System.in);
+    private int AccountID=1000;
 
     //Constructors
     public Bank(int ID, String Name, String Passcode)
@@ -131,10 +132,10 @@ public class Bank {
     public ArrayList<Field<String,?>> createNewAccount(){
         ArrayList<Field<String, ?>> accountFields = new ArrayList<>();
 
-        Field<String, ?> idNumberField = new Field<String,String>("ID Number", String.class, "", new Field.StringFieldValidator());
-        idNumberField.setFieldValue("Enter ID number: ");
-        accountFields.add(idNumberField);
-        Main.print(String.valueOf(idNumberField));
+        Main.print("Auto Generated ID Number: "+AccountID);
+        Field<String, String> pinField = new Field<String,String>("PIN", String.class, "", new Field.StringFieldValidator());
+        pinField.setFieldValue("Enter PIN: ");
+        accountFields.add(pinField);
 
         Field<String, String> firstNameField = new Field<String,String>("First Name", String.class, "", new Field.StringFieldValidator());
         firstNameField.setFieldValue("Enter first name: ");
@@ -148,65 +149,62 @@ public class Bank {
         emailField.setFieldValue("Enter email: ");
         accountFields.add(emailField);
 
-        Field<String, String> pinField = new Field<String,String>("PIN", String.class, "", new Field.StringFieldValidator());
-        pinField.setFieldValue("Enter PIN: ");
-        accountFields.add(pinField);
 
-        Field<String, String> initialDepositField = new Field<String,String>("Initial Deposit", String.class, "", new Field.StringFieldValidator());
-        initialDepositField.setFieldValue("Enter initial deposit: ");
-        accountFields.add(initialDepositField);
 
         return accountFields;
     }
 
     public SavingsAccount createNewSavingsAccount() {
-//        List<Field<String, ?>> accountFields = createNewAccount();
+        List<Field<String, ?>> accountFields = createNewAccount();
 
-//        String idNumber = accountFields.get(0).getFieldValue();
-//        Main.print(idNumber);
-//        String firstName = accountFields.get(1).getFieldValue();
-//        String lastName = accountFields.get(2).getFieldValue();
-//        String email = accountFields.get(3).getFieldValue();
-//        String pin = accountFields.get(4).getFieldValue();
+
+
+        String pin = accountFields.get(0).getFieldValue();
+        String firstName = accountFields.get(1).getFieldValue();
+        String lastName = accountFields.get(2).getFieldValue();
+        String email = accountFields.get(3).getFieldValue();
 //        double initialDeposit = Double.parseDouble(accountFields.get(5).getFieldValue());
-        if (input == null) {
-            throw new IllegalStateException("Scanner is not initialized.");
+//        System.out.print("Enter Account Pin: ");
+//        String pin = input.nextLine();
+//
+//        System.out.print("Enter First Name: ");
+//        String firstName = input.nextLine();
+//
+//        System.out.print("Enter Last Name: ");
+//        String lastName = input.nextLine();
+//
+//        System.out.print("Enter Email: ");
+//        String email = input.nextLine();
+        double initialDeposit;
+        System.out.print("Enter Initial Deposit (Press Enter to skip): ");
+        String depositInput = input.nextLine().trim(); // Read input and trim spaces
+
+        if (depositInput.isEmpty()) {
+            Main.print("Initial deposit is 0");
+            initialDeposit = 0.0;
+        } else {
+            try {
+                initialDeposit = Double.parseDouble(depositInput);
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input. Setting initial deposit to 0.");
+                initialDeposit = 0.0;
+            }
         }
-
-        System.out.print("Enter Account ID: ");
-        String idNumber = input.hasNextLine() ? input.nextLine().trim() : "None";
-
-        System.out.print("Enter Account Pin: ");
-        String pin = input.hasNextLine() ? input.nextLine().trim() : "1234";
-
-        System.out.print("Enter First Name: ");
-        String firstName = input.hasNextLine() ? input.nextLine().trim() : "1234";
-
-        System.out.print("Enter Last Name: ");
-        String lastName = input.hasNextLine() ? input.nextLine().trim() : "1234";
-
-        System.out.print("Enter Email: ");
-        String email = input.hasNextLine() ? input.nextLine().trim() : "1234";
-
-        System.out.print("Enter Initial Deposit (Enter - skip): ");
-        double initialDeposit= input.hasNextDouble() ? input.nextDouble() : 10.0;
-        if (input.hasNextLine()) input.nextLine();
-
-        return new SavingsAccount(this, idNumber, pin,firstName, lastName, email,  initialDeposit);
+        AccountID+=1;
+        Main.print("Account "+AccountID+" created successfully!");
+        return new SavingsAccount(this, ""+AccountID, pin,firstName, lastName, email,  initialDeposit);
     }
 
     public CreditAccount createNewCreditAccount() {
         List<Field<String, ?>> accountFields = createNewAccount();
 
-
-        String idNumber = accountFields.get(0).getFieldValue();
-        Main.print(idNumber);
+        String pin = accountFields.get(0).getFieldValue();
         String firstName = accountFields.get(1).getFieldValue();
         String lastName = accountFields.get(2).getFieldValue();
         String email = accountFields.get(3).getFieldValue();
-        String pin = accountFields.get(4).getFieldValue();
-
-        return new CreditAccount(this, idNumber, firstName, lastName, email, pin);
+        AccountID+=1;
+        Main.print("Account "+AccountID+" created successfully!");
+        return new CreditAccount(this, ""+AccountID, firstName, lastName, email, pin);
 
     }
 

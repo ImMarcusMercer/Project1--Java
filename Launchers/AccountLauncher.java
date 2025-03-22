@@ -50,12 +50,11 @@ public class AccountLauncher {
                                 while (tries2 < 3) {  
                                     String pin = Main.prompt("Enter Pin: ", true).trim(); 
                                 
-                                    if (found != null && String.valueOf(found.getPin()).trim().equals(pin)) {
+                                    if (String.valueOf(found.getPin()).trim().equals(pin)) {
                                         loggedAccount=found;
                                         setLogSession();
                                         System.out.println("Login Successful!");
                                         System.out.println("Session started for account: " + found.getAccountNumber());
-                                
                                         CreditAccountLauncher.credAccountInit();  
                                         destroyLogSession();  
                                         return;  
@@ -88,8 +87,6 @@ public class AccountLauncher {
                             tries+=1;
                             String accnum=Main.prompt("Enter Account Number: ",true);
                             Account found = assocBank.getBankAccount(BankLauncher.getLoggedBank(), accnum);
-
-
                             if (found instanceof SavingsAccount) {
                                 int tries2 = 0;
 
@@ -99,12 +96,10 @@ public class AccountLauncher {
                                     if (found.getPin().trim().equalsIgnoreCase(pin.trim())) {
                                         loggedAccount=found;
                                         setLogSession();
-                                        System.out.println("\n Login Successful!");
+                                        System.out.println("Login Successful!");
                                         System.out.println("Session started for account: " + found.getAccountNumber());
-
-
                                         SavingsAccountLauncher.savingsAccountInit((SavingsAccount) found);
-
+                                        destroyLogSession();
                                         return;
                                     }
 
@@ -145,12 +140,11 @@ public class AccountLauncher {
     {
 //        Main.showMenuHeader("Bank Selection");
         BankLauncher.showBanksMenu();
-        System.out.print("\nEnter Bank ID: ");
-        int bankId=input.nextInt();
-        input.nextLine();
+        System.out.print("\nEnter Bank Name: ");
+        String bankName=input.nextLine();
         for(Bank b :BankLauncher.getBankList())
         {
-            if(b.getID()==bankId)
+            if(b.getName().equals(bankName))
             {
                 return b;
             }
